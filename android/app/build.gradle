@@ -48,13 +48,12 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
-
     signingConfigs {
         release {
-            storeFile file("D://Development/Workspace/flutter_apps/VGo_flutter_app/android/app/keystore/vgo-flutter-keystore.jks")
-            storePassword "VGo@123"
-            keyAlias "vgo_customer_app"
-            keyPassword "VGo@123"
+//            storeFile file("D://Development/Workspace/flutter_apps/VGo_flutter_app/android/app/keystore/vgo-flutter-keystore.jks")
+//            storePassword "VGo@123"
+//            keyAlias "vgo_customer_app"
+//            keyPassword "VGo@123"
         }
     }
 
@@ -64,7 +63,10 @@ android {
         }
     }
 }
-
 flutter {
     source '../..'
+}
+dependencies {
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.github.umair13adil:RxLogs:v1.0.23'
 }
