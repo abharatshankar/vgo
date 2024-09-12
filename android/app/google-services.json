@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "241348522509",
+    "project_id": "vgo-android-16d1a",
+    "storage_bucket": "vgo-android-16d1a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241348522509:android:13292838b1c6e385451b44",
+        "android_client_info": {
+          "package_name": "vgo.app.customer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZoS9WAOL-dIatqx8_spAW59DOVPdEcPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
