@@ -73,6 +73,8 @@ dependencies:
   firebase_messaging: ^15.1.0
   flip_card: ^0.7.0
   sizer: ^3.0.3
+  smooth_page_indicator: ^1.2.0+3
+
 
 dev_dependencies:
   flutter_test:

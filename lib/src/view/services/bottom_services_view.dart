@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:vgo_flutter_app/src/constants/color_view_constants.dart';
 import 'package:vgo_flutter_app/src/constants/string_view_constants.dart';
 import 'package:vgo_flutter_app/src/utils/app_text_style.dart';
@@ -32,13 +35,46 @@ class ServicesViewState extends State<BottomServicesView> {
   int closeAppClick = 0;
 
   List<ServicesMenu> servicesMenuList = [];
+  Timer? _timer;
+  final PageController _pageController = PageController();
+  int _currentIndex = 0;
+  int _currentPage = 0;
+  final List<Widget> pages = [
+    Container(color: Colors.red),
+    Container(color: Colors.green),
+    Container(color: Colors.blue),
+  ];
+
+
 
   @override
   void initState() {
     super.initState();
     callGetTransferMenu();
     callServicesMenu();
+    // Set up a timer to automatically switch pages every 3 seconds
+    _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      if (_currentPage < pages.length - 1) {
+        _currentPage++;
+      } else {
+        _currentPage = 0; // Loop back to the first page
+      }
+
+      _pageController.animateToPage(
+        _currentPage,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
   }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Clean up the timer when the widget is disposed
+    _pageController.dispose();
+    super.dispose();
+  }
+
 
   void callGetTransferMenu() {
     setState(() {
@@ -122,71 +158,110 @@ class ServicesViewState extends State<BottomServicesView> {
                                 category: '',
                               )));
                 }),
+                // Container(
+                //   width: screenWidth,
+                //   height: screenHeight * 0.18,
+                //   margin: const EdgeInsets.only(top: 70, left: 15, right: 15),
+                //   decoration: BoxDecoration(
+                //     image: DecorationImage(
+                //         image: AssetImage(
+                //           'assets/images/services/ic_services_bg.png',
+                //         ),
+                //         fit: BoxFit.fill),
+                //   ),
+                // ),
+                // Container(
+                //   width: screenWidth,
+                //   height: screenHeight * 0.1,
+                //   margin: const EdgeInsets.only(top: 160, left: 15, right: 15),
+                //   decoration: BoxDecoration(
+                //     image: DecorationImage(
+                //         image: AssetImage(
+                //           'assets/images/services/ic_services_menu_bg.png',
+                //         ),
+                //         fit: BoxFit.fill),
+                //   ),
+                // ),
+                // Container(
+                //     width: screenWidth,
+                //     margin: const EdgeInsets.only(top: 80, left: 30, right: 30),
+                //     padding: EdgeInsets.only(top: 5),
+                //     child: Column(
+                //       mainAxisSize: MainAxisSize.max,
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       mainAxisAlignment: MainAxisAlignment.start,
+                //       children: [
+                //         Align(
+                //           alignment: Alignment.topRight,
+                //           child: Text(
+                //             'Wallet balance',
+                //             style: AppTextStyles.medium.copyWith(
+                //                 fontSize: 12,
+                //                 color: ColorViewConstants.colorGray),
+                //           ),
+                //         ),
+                //         Align(
+                //           alignment: Alignment.topRight,
+                //           child: Text(
+                //             'Rs 89700',
+                //             style: AppTextStyles.semiBold.copyWith(
+                //                 fontSize: 15,
+                //                 color: ColorViewConstants.colorWhite),
+                //           ),
+                //         ),
+                //         Text(
+                //           'Money transfer',
+                //           style: AppTextStyles.semiBold.copyWith(
+                //               fontSize: 15,
+                //               color: ColorViewConstants.colorWhite),
+                //         ),
+                //       ],
+                //     )),
+                // Container(
+                //   height: screenHeight * 0.12,
+                //   margin: const EdgeInsets.only(top: 140, left: 15, right: 15),
+                //   child: Align(
+                //       child: servicesTransferWidget(context, transferList)),
+                // ),
+
                 Container(
                   width: screenWidth,
                   height: screenHeight * 0.18,
                   margin: const EdgeInsets.only(top: 70, left: 15, right: 15),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                          'assets/images/services/ic_services_bg.png',
-                        ),
-                        fit: BoxFit.fill),
+                  child:  PageView.builder(
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _currentPage = index;
+                      });
+                    },
+                    itemCount: pages.length,
+                    itemBuilder: (context, index) {
+                      return pages[index];
+                    },
                   ),
                 ),
-                Container(
-                  width: screenWidth,
-                  height: screenHeight * 0.1,
-                  margin: const EdgeInsets.only(top: 160, left: 15, right: 15),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                          'assets/images/services/ic_services_menu_bg.png',
-                        ),
-                        fit: BoxFit.fill),
-                  ),
-                ),
-                Container(
-                    width: screenWidth,
-                    margin: const EdgeInsets.only(top: 80, left: 30, right: 30),
-                    padding: EdgeInsets.only(top: 5),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            'Wallet balance',
-                            style: AppTextStyles.medium.copyWith(
-                                fontSize: 12,
-                                color: ColorViewConstants.colorGray),
+
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        margin: const EdgeInsets.only(top: 240, left: 15, right: 15),
+                        child:  SmoothPageIndicator(
+                          controller: _pageController,
+                          count: pages.length,
+                          effect: WormEffect(
+                            dotHeight: 12,
+                            dotWidth: 12,
+                            activeDotColor: Colors.blueAccent,
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            'Rs 89700',
-                            style: AppTextStyles.semiBold.copyWith(
-                                fontSize: 15,
-                                color: ColorViewConstants.colorWhite),
-                          ),
-                        ),
-                        Text(
-                          'Money transfer',
-                          style: AppTextStyles.semiBold.copyWith(
-                              fontSize: 15,
-                              color: ColorViewConstants.colorWhite),
-                        ),
-                      ],
-                    )),
-                Container(
-                  height: screenHeight * 0.12,
-                  margin: const EdgeInsets.only(top: 140, left: 15, right: 15),
-                  child: Align(
-                      child: servicesTransferWidget(context, transferList)),
+                    ),
+                  ],
                 ),
+
                 Container(
                     margin: EdgeInsets.only(top: 270),
                     color: ColorViewConstants.colorWhite,
@@ -197,21 +272,21 @@ class ServicesViewState extends State<BottomServicesView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                          height: screenHeight * 0.23,
-                          width: screenWidth,
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: Image.asset(
-                            'assets/images/banner/banner3.png',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.03,
-                        ),
+                        // Container(
+                        //   height: screenHeight * 0.23,
+                        //   width: screenWidth,
+                        //   margin: EdgeInsets.only(left: 10, right: 10),
+                        //   decoration: BoxDecoration(
+                        //       borderRadius:
+                        //           BorderRadius.all(Radius.circular(10))),
+                        //   child: Image.asset(
+                        //     'assets/images/banner/banner3.png',
+                        //     fit: BoxFit.fill,
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: screenHeight * 0.03,
+                        // ),
                         ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: servicesMenuList.length,
