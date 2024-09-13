@@ -71,6 +71,8 @@ dependencies:
   qr_code_scanner: ^1.0.1
   firebase_core: ^3.4.0
   firebase_messaging: ^15.1.0
+  flip_card: ^0.7.0
+  sizer: ^3.0.3
 
 dev_dependencies:
   flutter_test:
@@ -193,6 +195,8 @@ flutter:
     - assets/images/bank/paytm.jpg
     - assets/images/bank/phonepe.jpg
     - assets/images/bank/gpay.png
+    - assets/images/home/coin1.png
+    - assets/images/home/coin_new.png
     - assets/images/home/down_arrow.svg
     - assets/images/home/down_arrow.png
     - assets/images/services/ic_success.png

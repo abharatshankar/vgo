@@ -191,7 +191,7 @@ class BottomHomeState extends State<BottomHomeView> {
                     SizedBox(
                       height: screenHeight * 0.01,
                     ),
-                    widgetHomeCoinDetails(context, widget.coin),
+                    Center(child: widgetHomeCoinDetails(context, widget.coin)),
                     SizedBox(
                       height: screenHeight * 0.02,
                     ),

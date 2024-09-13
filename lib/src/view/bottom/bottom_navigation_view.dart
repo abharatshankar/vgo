@@ -27,99 +27,119 @@ class BottomNavigationView extends StatefulWidget {
 
 class BottomNavigationState extends State<BottomNavigationView> {
   Widget? _child;
-
+  int closeAppClick = 0;
   @override
   void initState() {
     super.initState();
     _handleNavigationChange(widget.currentIndex);
   }
 
+  Future<bool> _onWillPop() async {
+    print('object');
+    closeAppClick++;
+    if(closeAppClick == 2){
+      exit(0);
+    } else {
+      ToastUtils.instance
+          .showToast("Please press back again to close the app.", context: context, isError: false, bg: ColorViewConstants.colorYellow);
+    }
+
+    Future.delayed(const Duration(seconds: 5), () {
+      closeAppClick = 0;
+    });
+
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 0,
-            backgroundColor: ColorViewConstants.colorBlueSecondaryText,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: MaterialApp(
+          theme: ThemeData(
+            visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          body: _child ?? BottomHomeView(),
-          bottomNavigationBar: SalomonBottomBar(
-            backgroundColor: ColorViewConstants.colorWhite,
-            margin:
-            const EdgeInsets.only(top: 15, bottom: 15, right: 10, left: 10),
-            currentIndex: widget.currentIndex,
-            onTap: (i) => setState(() {
-              loggerNoStack.e('navPosition' + widget.currentIndex.toString());
-              // _currentIndex = widget.navPosition !=0 ? widget.navPosition : 0;
-              widget.currentIndex = i;
-              _handleNavigationChange(widget.currentIndex);
-            }),
-            items: [
-              SalomonBottomBarItem(
-                icon: const Icon(Icons.home),
-                unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
-                selectedColor: ColorViewConstants.colorPrimaryText,
-                title: Text(
-                  StringViewConstants.home,
-                  style: AppTextStyles.medium.copyWith(
-                      fontSize: 15, color: ColorViewConstants.colorPrimaryText),
+          home: Scaffold(
+            appBar: AppBar(
+              toolbarHeight: 0,
+              backgroundColor: ColorViewConstants.colorBlueSecondaryText,
+            ),
+            body: _child ?? BottomHomeView(),
+            bottomNavigationBar: SalomonBottomBar(
+              backgroundColor: ColorViewConstants.colorWhite,
+              margin:
+              const EdgeInsets.only(top: 15, bottom: 15, right: 10, left: 10),
+              currentIndex: widget.currentIndex,
+              onTap: (i) => setState(() {
+                loggerNoStack.e('navPosition' + widget.currentIndex.toString());
+                // _currentIndex = widget.navPosition !=0 ? widget.navPosition : 0;
+                widget.currentIndex = i;
+                _handleNavigationChange(widget.currentIndex);
+              }),
+              items: [
+                SalomonBottomBarItem(
+                  icon: const Icon(Icons.home),
+                  unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
+                  selectedColor: ColorViewConstants.colorPrimaryText,
+                  title: Text(
+                    StringViewConstants.home,
+                    style: AppTextStyles.medium.copyWith(
+                        fontSize: 15, color: ColorViewConstants.colorPrimaryText),
+                  ),
                 ),
-              ),
-              SalomonBottomBarItem(
-                icon: const Icon(Icons.account_tree_rounded),
-                unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
-                title: Text(
-                  StringViewConstants.services,
-                  style: AppTextStyles.medium.copyWith(
-                      fontSize: 15, color: ColorViewConstants.colorPrimaryText),
+                SalomonBottomBarItem(
+                  icon: const Icon(Icons.account_tree_rounded),
+                  unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
+                  title: Text(
+                    StringViewConstants.services,
+                    style: AppTextStyles.medium.copyWith(
+                        fontSize: 15, color: ColorViewConstants.colorPrimaryText),
+                  ),
+                  selectedColor: ColorViewConstants.colorPrimaryText,
                 ),
-                selectedColor: ColorViewConstants.colorPrimaryText,
-              ),
-/*              SalomonBottomBarItem(
-                icon: const Icon(Icons.local_activity),
-                unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
-                selectedColor: ColorViewConstants.colorPrimaryText,
-                title: Text(
-                  StringViewConstants.Activity,
-                  style: AppTextStyles.medium.copyWith(
-                      fontSize: 15, color: ColorViewConstants.colorPrimaryText),
+      /*              SalomonBottomBarItem(
+                  icon: const Icon(Icons.local_activity),
+                  unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
+                  selectedColor: ColorViewConstants.colorPrimaryText,
+                  title: Text(
+                    StringViewConstants.Activity,
+                    style: AppTextStyles.medium.copyWith(
+                        fontSize: 15, color: ColorViewConstants.colorPrimaryText),
+                  ),
+                ),*/SalomonBottomBarItem(
+                  icon:  SvgPicture.asset("assets/images/common/ic_customer_care.svg"),
+                  unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
+                  selectedColor: ColorViewConstants.colorPrimaryText,
+                  title: Text(
+                    'Bot',
+                    style: AppTextStyles.medium.copyWith(
+                        fontSize: 15, color: ColorViewConstants.colorPrimaryText),
+                  ),
                 ),
-              ),*/SalomonBottomBarItem(
-                icon:  SvgPicture.asset("assets/images/common/ic_customer_care.svg"),
-                unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
-                selectedColor: ColorViewConstants.colorPrimaryText,
-                title: Text(
-                  'Bot',
-                  style: AppTextStyles.medium.copyWith(
-                      fontSize: 15, color: ColorViewConstants.colorPrimaryText),
+                SalomonBottomBarItem(
+                  icon: const Icon(Icons.account_balance_wallet),
+                  unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
+                  selectedColor: ColorViewConstants.colorPrimaryText,
+                  title: Text(
+                    StringViewConstants.wallet,
+                    style: AppTextStyles.medium.copyWith(
+                        fontSize: 15, color: ColorViewConstants.colorPrimaryText),
+                  ),
                 ),
-              ),
-              SalomonBottomBarItem(
-                icon: const Icon(Icons.account_balance_wallet),
-                unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
-                selectedColor: ColorViewConstants.colorPrimaryText,
-                title: Text(
-                  StringViewConstants.wallet,
-                  style: AppTextStyles.medium.copyWith(
-                      fontSize: 15, color: ColorViewConstants.colorPrimaryText),
+                SalomonBottomBarItem(
+                  icon: const Icon(Icons.person),
+                  unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
+                  selectedColor: ColorViewConstants.colorPrimaryText,
+                  title: Text(
+                    'More',
+                    style: AppTextStyles.medium.copyWith(
+                        fontSize: 15, color: ColorViewConstants.colorPrimaryText),
+                  ),
                 ),
-              ),
-              SalomonBottomBarItem(
-                icon: const Icon(Icons.person),
-                unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
-                selectedColor: ColorViewConstants.colorPrimaryText,
-                title: Text(
-                  'More',
-                  style: AppTextStyles.medium.copyWith(
-                      fontSize: 15, color: ColorViewConstants.colorPrimaryText),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+      ),
     );
 
   }

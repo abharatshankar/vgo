@@ -164,6 +164,7 @@ class StringViewConstants{
   static const String allocatedFunds = "Allocated Funds";
   static const String coinsFundsVolume = "Coins/Funds/Volume";
   static const String knowMore = "Know more";
+  static const String back = "Back";
   static const String analysisOverVie = "Analysis OverVie";
   static const String priceHigh = "Price high";
   static const String priceLow = "Price Low";
