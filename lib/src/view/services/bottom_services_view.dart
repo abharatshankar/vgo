@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -45,7 +46,7 @@ class ServicesViewState extends State<BottomServicesView> {
     Container(color: Colors.blue),
   ];
 
-
+  List<MoreMenu> newInfo = [];
 
   @override
   void initState() {
@@ -66,6 +67,7 @@ class ServicesViewState extends State<BottomServicesView> {
         curve: Curves.easeInOut,
       );
     });
+
   }
 
   @override
@@ -111,6 +113,14 @@ class ServicesViewState extends State<BottomServicesView> {
         loggerNoStack
             .e('servicesMenuList : ' + servicesMenuList.length.toString());
       });
+      MoreMenu menu = MoreMenu(menuIconPath: "https://vgopay.in/icons/orders.png",menuName: "ORDER");
+      newInfo.add(menu);
+      MoreMenu menu1 = MoreMenu(menuIconPath: "https://vgopay.in/icons/settings.png",menuName: "APPOINTMENT");
+      newInfo.add(menu1);
+      MoreMenu menu2 = MoreMenu(menuIconPath: "https://vgopay.in/icons/job.png",menuName: "JOB");
+      newInfo.add(menu2);
+      print('newInfo is : ${jsonEncode(newInfo)}');
+
     });
   }
 
@@ -158,109 +168,73 @@ class ServicesViewState extends State<BottomServicesView> {
                                 category: '',
                               )));
                 }),
-                // Container(
-                //   width: screenWidth,
-                //   height: screenHeight * 0.18,
-                //   margin: const EdgeInsets.only(top: 70, left: 15, right: 15),
-                //   decoration: BoxDecoration(
-                //     image: DecorationImage(
-                //         image: AssetImage(
-                //           'assets/images/services/ic_services_bg.png',
-                //         ),
-                //         fit: BoxFit.fill),
-                //   ),
-                // ),
-                // Container(
-                //   width: screenWidth,
-                //   height: screenHeight * 0.1,
-                //   margin: const EdgeInsets.only(top: 160, left: 15, right: 15),
-                //   decoration: BoxDecoration(
-                //     image: DecorationImage(
-                //         image: AssetImage(
-                //           'assets/images/services/ic_services_menu_bg.png',
-                //         ),
-                //         fit: BoxFit.fill),
-                //   ),
-                // ),
-                // Container(
-                //     width: screenWidth,
-                //     margin: const EdgeInsets.only(top: 80, left: 30, right: 30),
-                //     padding: EdgeInsets.only(top: 5),
-                //     child: Column(
-                //       mainAxisSize: MainAxisSize.max,
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       mainAxisAlignment: MainAxisAlignment.start,
-                //       children: [
-                //         Align(
-                //           alignment: Alignment.topRight,
-                //           child: Text(
-                //             'Wallet balance',
-                //             style: AppTextStyles.medium.copyWith(
-                //                 fontSize: 12,
-                //                 color: ColorViewConstants.colorGray),
-                //           ),
-                //         ),
-                //         Align(
-                //           alignment: Alignment.topRight,
-                //           child: Text(
-                //             'Rs 89700',
-                //             style: AppTextStyles.semiBold.copyWith(
-                //                 fontSize: 15,
-                //                 color: ColorViewConstants.colorWhite),
-                //           ),
-                //         ),
-                //         Text(
-                //           'Money transfer',
-                //           style: AppTextStyles.semiBold.copyWith(
-                //               fontSize: 15,
-                //               color: ColorViewConstants.colorWhite),
-                //         ),
-                //       ],
-                //     )),
-                // Container(
-                //   height: screenHeight * 0.12,
-                //   margin: const EdgeInsets.only(top: 140, left: 15, right: 15),
-                //   child: Align(
-                //       child: servicesTransferWidget(context, transferList)),
-                // ),
-
                 Container(
                   width: screenWidth,
                   height: screenHeight * 0.18,
                   margin: const EdgeInsets.only(top: 70, left: 15, right: 15),
-                  child:  PageView.builder(
-                    controller: _pageController,
-                    onPageChanged: (index) {
-                      setState(() {
-                        _currentPage = index;
-                      });
-                    },
-                    itemCount: pages.length,
-                    itemBuilder: (context, index) {
-                      return pages[index];
-                    },
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(
+                          'assets/images/services/ic_services_bg.png',
+                        ),
+                        fit: BoxFit.fill),
                   ),
                 ),
-
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        margin: const EdgeInsets.only(top: 240, left: 15, right: 15),
-                        child:  SmoothPageIndicator(
-                          controller: _pageController,
-                          count: pages.length,
-                          effect: WormEffect(
-                            dotHeight: 12,
-                            dotWidth: 12,
-                            activeDotColor: Colors.blueAccent,
+                Container(
+                  width: screenWidth,
+                  height: screenHeight * 0.1,
+                  margin: const EdgeInsets.only(top: 160, left: 15, right: 15),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(
+                          'assets/images/services/ic_services_menu_bg.png',
+                        ),
+                        fit: BoxFit.fill),
+                  ),
+                ),
+                Container(
+                    width: screenWidth,
+                    margin: const EdgeInsets.only(top: 80, left: 30, right: 30),
+                    padding: EdgeInsets.only(top: 5),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            'Wallet balance',
+                            style: AppTextStyles.medium.copyWith(
+                                fontSize: 12,
+                                color: ColorViewConstants.colorGray),
                           ),
                         ),
-                    ),
-                  ],
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            'Rs 89700',
+                            style: AppTextStyles.semiBold.copyWith(
+                                fontSize: 15,
+                                color: ColorViewConstants.colorWhite),
+                          ),
+                        ),
+                        Text(
+                          'Money transfer',
+                          style: AppTextStyles.semiBold.copyWith(
+                              fontSize: 15,
+                              color: ColorViewConstants.colorWhite),
+                        ),
+                      ],
+                    )),
+                Container(
+                  height: screenHeight * 0.12,
+                  margin: const EdgeInsets.only(top: 140, left: 15, right: 15),
+                  child: Align(
+                      child: servicesTransferWidget(context, transferList)),
                 ),
+
+
 
                 Container(
                     margin: EdgeInsets.only(top: 270),
@@ -272,174 +246,108 @@ class ServicesViewState extends State<BottomServicesView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // Container(
-                        //   height: screenHeight * 0.23,
-                        //   width: screenWidth,
-                        //   margin: EdgeInsets.only(left: 10, right: 10),
-                        //   decoration: BoxDecoration(
-                        //       borderRadius:
-                        //           BorderRadius.all(Radius.circular(10))),
-                        //   child: Image.asset(
-                        //     'assets/images/banner/banner3.png',
-                        //     fit: BoxFit.fill,
-                        //   ),
-                        // ),
-                        // SizedBox(
-                        //   height: screenHeight * 0.03,
-                        // ),
-                        ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: servicesMenuList.length,
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemBuilder: (context, position) {
-                              return Container(
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        servicesMenuList[position].title ?? '',
-                                        style: AppTextStyles.medium.copyWith(
-                                            color: ColorViewConstants
-                                                .colorPrimaryText,
-                                            fontSize: 14),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        height: screenHeight * 0.13,
-                                        child: ListView.builder(
-                                            itemCount:
-                                                servicesMenuList[position]
-                                                    .servicesMenu
-                                                    ?.length,
-                                            scrollDirection: Axis.horizontal,
-                                            shrinkWrap: true,
-                                            itemBuilder: (context, index) {
-                                              return InkWell(
-                                                  onTap: () {
-                                                    loggerNoStack.e(
-                                                        'cliced on services : ' +
-                                                            servicesMenuList[
-                                                                    position]
-                                                                .servicesMenu![
-                                                                    index]
-                                                                .menuCode
-                                                                .toString());
-                                                    if ("DELIVERY" ==
-                                                        servicesMenuList[
-                                                                position]
-                                                            .servicesMenu![
-                                                                index]
-                                                            .menuCode
-                                                            .toString()) {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  OrdersDeliveryListByUsersView(
-                                                                    category: servicesMenuList[position]
-                                                                            .servicesMenu![index]
-                                                                            .menuCode ??
-                                                                        '',
-                                                                  )));
-                                                    } else if ("JOBS" ==
-                                                        servicesMenuList[
-                                                                position]
-                                                            .servicesMenu![
-                                                                index]
-                                                            .menuCode
-                                                            .toString()) {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  JobsTabsView()));
-                                                    } else if ("GAP" ==
-                                                        servicesMenuList[
-                                                                position]
-                                                            .servicesMenu![
-                                                                index]
-                                                            .menuCode
-                                                            .toString()) {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  ApplicantProfileView()));
-                                                    } else {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  StoresListByCategoryView(
-                                                                    category: servicesMenuList[position]
-                                                                            .servicesMenu![index]
-                                                                            .menuCode ??
-                                                                        '',
-                                                                  )));
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                    padding: EdgeInsets.only(
-                                                        left: 10,
-                                                        right: 10,
-                                                        top: 10,
-                                                        bottom: 10),
-                                                    width: screenWidth * 0.25,
-                                                    child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Image.network(
-                                                            servicesMenuList[
-                                                                        position]
-                                                                    .servicesMenu![
-                                                                        index]
-                                                                    .menuIconPath ??
-                                                                '',
-                                                            height: 35,
-                                                            width: 35,
-                                                          ),
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Text(
-                                                            servicesMenuList[
-                                                                        position]
-                                                                    .servicesMenu![
-                                                                        index]
-                                                                    .menuName ??
-                                                                '',
-                                                            style: AppTextStyles
-                                                                .medium
-                                                                .copyWith(
-                                                                    color: ColorViewConstants
-                                                                        .colorPrimaryTextHint,
-                                                                    fontSize:
-                                                                        12),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                        ]),
-                                                  ));
-                                            }),
-                                      )
-                                    ]),
-                              );
-                            }),
+
+                        Container(
+                          width: screenWidth,
+                          height: screenHeight * 0.18,
+                          margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
+                          child:  PageView.builder(
+                            controller: _pageController,
+                            onPageChanged: (index) {
+                              setState(() {
+                                _currentPage = index;
+                              });
+                            },
+                            itemCount: pages.length,
+                            itemBuilder: (context, index) {
+                              return pages[index];
+                            },
+                          ),
+                        ),
+
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
+                              child:  SmoothPageIndicator(
+                                controller: _pageController,
+                                count: pages.length,
+                                effect: WormEffect(
+                                  dotHeight: 12,
+                                  dotWidth: 12,
+                                  activeDotColor: Colors.blueAccent,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+
+                        Container(
+                          height: screenHeight * 0.13,
+                          child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: newInfo.length,
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                String? name =  newInfo[index].menuName;
+                                return InkWell(
+                                  onTap: (){
+                                    if(name == "ORDER"){
+
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+                                        left: 10,
+                                        right: 10,
+                                        top: 10,
+                                        bottom: 10),
+                                    width: screenWidth * 0.30,
+                                    child: Column(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment
+                                            .center,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment
+                                            .center,
+                                        mainAxisSize:
+                                        MainAxisSize.max,
+                                        children: [
+                                          Image.network(
+                                            newInfo[
+                                            index]
+                                                .menuIconPath ??
+                                                '',
+                                            height: 35,
+                                            width: 35,
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            name ?? '',
+                                            style: AppTextStyles
+                                                .medium
+                                                .copyWith(
+                                                color: ColorViewConstants
+                                                    .colorPrimaryTextHint,
+                                                fontSize:
+                                                12),
+                                            maxLines: 1,
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                        ]),
+                                  ),
+                                );
+                              }),
+                        ),
                       ],
                     )))),
                 widgetLoader(context, showProgressCircle),

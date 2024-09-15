@@ -15,6 +15,7 @@ import '../../utils/toast_utils.dart';
 import '../activity/bottom_activity_view.dart';
 import '../bot/bottom_bot_view.dart';
 import '../services/bottom_services_view.dart';
+import '../stores/bottom_stores_view.dart';
 
 class BottomNavigationView extends StatefulWidget {
   BottomNavigationView({super.key, required this.currentIndex});
@@ -111,7 +112,7 @@ class BottomNavigationState extends State<BottomNavigationView> {
                   unselectedColor: ColorViewConstants.colorPrimaryOpacityText50,
                   selectedColor: ColorViewConstants.colorPrimaryText,
                   title: Text(
-                    'Bot',
+                    'Stores',
                     style: AppTextStyles.medium.copyWith(
                         fontSize: 15, color: ColorViewConstants.colorPrimaryText),
                   ),
@@ -155,7 +156,7 @@ class BottomNavigationState extends State<BottomNavigationView> {
           _child = BottomServicesView();
           break;
         case 2:
-          _child = BottomBotView(userType: '',);//BottomActivityView();
+          _child = BottomStoresView();//BottomActivityView();
           break;
         case 3:
           _child = BottomWalletView();//BottomWalletView();
