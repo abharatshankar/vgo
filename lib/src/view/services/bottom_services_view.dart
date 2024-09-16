@@ -14,6 +14,7 @@ import 'package:vgo_flutter_app/src/view/common/widget_loader.dart';
 import 'package:vgo_flutter_app/src/view/profile/applicant_profile_view.dart';
 import 'package:vgo_flutter_app/src/view/services/jobs/jobs_tabs_view.dart';
 import 'package:vgo_flutter_app/src/view/services/order/delivery/orders_delivery_list_by_users_view.dart';
+import 'package:vgo_flutter_app/src/view/services/order_from_screen.dart';
 import 'package:vgo_flutter_app/src/view/services/services_transfer_widget.dart';
 import 'package:vgo_flutter_app/src/view/services/stores/stores_list_by_category_view.dart';
 import 'package:vgo_flutter_app/src/view_model/services_view_model.dart';
@@ -36,6 +37,7 @@ class ServicesViewState extends State<BottomServicesView> {
   int closeAppClick = 0;
 
   List<ServicesMenu> servicesMenuList = [];
+  List<SearchItem> searchItems = [];
   Timer? _timer;
   final PageController _pageController = PageController();
   int _currentIndex = 0;
@@ -67,7 +69,6 @@ class ServicesViewState extends State<BottomServicesView> {
         curve: Curves.easeInOut,
       );
     });
-
   }
 
   @override
@@ -76,7 +77,6 @@ class ServicesViewState extends State<BottomServicesView> {
     _pageController.dispose();
     super.dispose();
   }
-
 
   void callGetTransferMenu() {
     setState(() {
@@ -110,17 +110,23 @@ class ServicesViewState extends State<BottomServicesView> {
 
       setState(() {
         servicesMenuList = response!.servicesMenuList!;
+        searchItems = response.searchItems!;
         loggerNoStack
             .e('servicesMenuList : ' + servicesMenuList.length.toString());
+        loggerNoStack.e("searchItems is : " + searchItems.length.toString());
       });
-      MoreMenu menu = MoreMenu(menuIconPath: "https://vgopay.in/icons/orders.png",menuName: "ORDER");
+      MoreMenu menu = MoreMenu(
+          menuIconPath: "https://vgopay.in/icons/orders.png",
+          menuName: "ORDER");
       newInfo.add(menu);
-      MoreMenu menu1 = MoreMenu(menuIconPath: "https://vgopay.in/icons/settings.png",menuName: "APPOINTMENT");
+      MoreMenu menu1 = MoreMenu(
+          menuIconPath: "https://vgopay.in/icons/settings.png",
+          menuName: "APPOINTMENT");
       newInfo.add(menu1);
-      MoreMenu menu2 = MoreMenu(menuIconPath: "https://vgopay.in/icons/job.png",menuName: "JOB");
+      MoreMenu menu2 = MoreMenu(
+          menuIconPath: "https://vgopay.in/icons/job.png", menuName: "JOB");
       newInfo.add(menu2);
       print('newInfo is : ${jsonEncode(newInfo)}');
-
     });
   }
 
@@ -233,123 +239,114 @@ class ServicesViewState extends State<BottomServicesView> {
                   child: Align(
                       child: servicesTransferWidget(context, transferList)),
                 ),
-
-
-
                 Container(
                     margin: EdgeInsets.only(top: 270),
                     color: ColorViewConstants.colorWhite,
-                    child: Expanded(
-                        child: SingleChildScrollView(
-                            child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-
-                        Container(
-                          width: screenWidth,
-                          height: screenHeight * 0.18,
-                          margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
-                          child:  PageView.builder(
-                            controller: _pageController,
-                            onPageChanged: (index) {
-                              setState(() {
-                                _currentPage = index;
-                              });
-                            },
-                            itemCount: pages.length,
-                            itemBuilder: (context, index) {
-                              return pages[index];
-                            },
-                          ),
-                        ),
-
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                    child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
-                              child:  SmoothPageIndicator(
+                              width: screenWidth,
+                              height: screenHeight * 0.18,
+                              margin: const EdgeInsets.only(
+                                  top: 10, left: 15, right: 15),
+                              child: PageView.builder(
                                 controller: _pageController,
-                                count: pages.length,
-                                effect: WormEffect(
-                                  dotHeight: 12,
-                                  dotWidth: 12,
-                                  activeDotColor: Colors.blueAccent,
-                                ),
+                                onPageChanged: (index) {
+                                  setState(() {
+                                    _currentPage = index;
+                                  });
+                                },
+                                itemCount: pages.length,
+                                itemBuilder: (context, index) {
+                                  return pages[index];
+                                },
                               ),
                             ),
-                          ],
-                        ),
-
-
-                        Container(
-                          height: screenHeight * 0.13,
-                          child: ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: newInfo.length,
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                String? name =  newInfo[index].menuName;
-                                return InkWell(
-                                  onTap: (){
-                                    if(name == "ORDER"){
-
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                        left: 10,
-                                        right: 10,
-                                        top: 10,
-                                        bottom: 10),
-                                    width: screenWidth * 0.30,
-                                    child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .center,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment
-                                            .center,
-                                        mainAxisSize:
-                                        MainAxisSize.max,
-                                        children: [
-                                          Image.network(
-                                            newInfo[
-                                            index]
-                                                .menuIconPath ??
-                                                '',
-                                            height: 35,
-                                            width: 35,
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                            name ?? '',
-                                            style: AppTextStyles
-                                                .medium
-                                                .copyWith(
-                                                color: ColorViewConstants
-                                                    .colorPrimaryTextHint,
-                                                fontSize:
-                                                12),
-                                            maxLines: 1,
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                        ]),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      top: 10, left: 15, right: 15),
+                                  child: SmoothPageIndicator(
+                                    controller: _pageController,
+                                    count: pages.length,
+                                    effect: WormEffect(
+                                      dotHeight: 12,
+                                      dotWidth: 12,
+                                      activeDotColor: Colors.blueAccent,
+                                    ),
                                   ),
-                                );
-                              }),
-                        ),
-                      ],
-                    )))),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              height: screenHeight * 0.13,
+                              child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: newInfo.length,
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    String? name = newInfo[index].menuName;
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => OrderFromScreen(
+                                                category: name!,
+                                                userId: "",
+                                                searchItems: searchItems ?? [],
+                                              )),
+                                        );
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(
+                                            left: 10,
+                                            right: 10,
+                                            top: 10,
+                                            bottom: 10),
+                                        width: screenWidth * 0.30,
+                                        child: Column(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Image.network(
+                                                newInfo[index].menuIconPath ?? '',
+                                                height: 35,
+                                                width: 35,
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                name ?? '',
+                                                style: AppTextStyles.medium
+                                                    .copyWith(
+                                                    color: ColorViewConstants
+                                                        .colorPrimaryTextHint,
+                                                    fontSize: 12),
+                                                maxLines: 1,
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                            ]),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ],
+                        ))),
                 widgetLoader(context, showProgressCircle),
               ],
             )));

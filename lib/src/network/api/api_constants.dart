@@ -11,6 +11,7 @@ class APIConstant {
   static String apiRegister = "profile/public/api/users/register";
   static String apiLogin = "profile/public/api/users/user-login";
   static String apiOTPValidation = "profile/public/api/users/otp-validation";
+  static String getUserSearchHistory = "profile/public/api/usersearch";
   static String apiCheckUserExists =
       "profile/public/api/users/check-user-exists";
   static String apiCountryList =

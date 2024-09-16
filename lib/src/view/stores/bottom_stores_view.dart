@@ -266,183 +266,182 @@ class StoresViewState extends State<BottomStoresView> {
                 Container(
                     margin: EdgeInsets.only(top: 270),
                     color: ColorViewConstants.colorWhite,
-                    child: Expanded(
-                        child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                // Container(
-                                //   height: screenHeight * 0.23,
-                                //   width: screenWidth,
-                                //   margin: EdgeInsets.only(left: 10, right: 10),
-                                //   decoration: BoxDecoration(
-                                //       borderRadius:
-                                //           BorderRadius.all(Radius.circular(10))),
-                                //   child: Image.asset(
-                                //     'assets/images/banner/banner3.png',
-                                //     fit: BoxFit.fill,
-                                //   ),
-                                // ),
-                                // SizedBox(
-                                //   height: screenHeight * 0.03,
-                                // ),
-                                ListView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: servicesMenuList.length,
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, position) {
-                                      return Container(
-                                        margin: EdgeInsets.only(left: 10, right: 10),
-                                        child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Text(
-                                                servicesMenuList[position].title ?? '',
-                                                style: AppTextStyles.medium.copyWith(
-                                                    color: ColorViewConstants
-                                                        .colorPrimaryText,
-                                                    fontSize: 14),
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Container(
-                                                height: screenHeight * 0.13,
-                                                child: ListView.builder(
-                                                    itemCount:
-                                                    servicesMenuList[position]
-                                                        .servicesMenu
-                                                        ?.length,
-                                                    scrollDirection: Axis.horizontal,
-                                                    shrinkWrap: true,
-                                                    itemBuilder: (context, index) {
-                                                      return InkWell(
-                                                          onTap: () {
-                                                            loggerNoStack.e(
-                                                                'cliced on services : ' +
-                                                                    servicesMenuList[
-                                                                    position]
-                                                                        .servicesMenu![
-                                                                    index]
-                                                                        .menuCode
-                                                                        .toString());
-                                                            if ("DELIVERY" ==
+                    child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            // Container(
+                            //   height: screenHeight * 0.23,
+                            //   width: screenWidth,
+                            //   margin: EdgeInsets.only(left: 10, right: 10),
+                            //   decoration: BoxDecoration(
+                            //       borderRadius:
+                            //           BorderRadius.all(Radius.circular(10))),
+                            //   child: Image.asset(
+                            //     'assets/images/banner/banner3.png',
+                            //     fit: BoxFit.fill,
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: screenHeight * 0.03,
+                            // ),
+                            ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: servicesMenuList.length,
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemBuilder: (context, position) {
+                                  return Container(
+                                    margin: EdgeInsets.only(left: 10, right: 10),
+                                    child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Text(
+                                            servicesMenuList[position].title ?? '',
+                                            style: AppTextStyles.medium.copyWith(
+                                                color: ColorViewConstants
+                                                    .colorPrimaryText,
+                                                fontSize: 14),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Container(
+                                            height: screenHeight * 0.13,
+                                            child: ListView.builder(
+                                                itemCount:
+                                                servicesMenuList[position]
+                                                    .servicesMenu
+                                                    ?.length,
+                                                scrollDirection: Axis.horizontal,
+                                                shrinkWrap: true,
+                                                itemBuilder: (context, index) {
+                                                  return InkWell(
+                                                      onTap: () {
+                                                        loggerNoStack.e(
+                                                            'cliced on services : ' +
                                                                 servicesMenuList[
                                                                 position]
                                                                     .servicesMenu![
                                                                 index]
                                                                     .menuCode
-                                                                    .toString()) {
-                                                              Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          OrdersDeliveryListByUsersView(
-                                                                            category: servicesMenuList[position]
-                                                                                .servicesMenu![index]
-                                                                                .menuCode ??
-                                                                                '',
-                                                                          )));
-                                                            } else if ("JOBS" ==
+                                                                    .toString());
+                                                        if ("DELIVERY" ==
+                                                            servicesMenuList[
+                                                            position]
+                                                                .servicesMenu![
+                                                            index]
+                                                                .menuCode
+                                                                .toString()) {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      OrdersDeliveryListByUsersView(
+                                                                        category: servicesMenuList[position]
+                                                                            .servicesMenu![index]
+                                                                            .menuCode ??
+                                                                            '',
+                                                                      )));
+                                                        } else if ("JOBS" ==
+                                                            servicesMenuList[
+                                                            position]
+                                                                .servicesMenu![
+                                                            index]
+                                                                .menuCode
+                                                                .toString()) {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      JobsTabsView()));
+                                                        } else if ("GAP" ==
+                                                            servicesMenuList[
+                                                            position]
+                                                                .servicesMenu![
+                                                            index]
+                                                                .menuCode
+                                                                .toString()) {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      ApplicantProfileView()));
+                                                        } else {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      StoresListByCategoryView(
+                                                                        category: servicesMenuList[position]
+                                                                            .servicesMenu![index]
+                                                                            .menuCode ??
+                                                                            '',
+                                                                      )));
+                                                        }
+                                                      },
+                                                      child: Container(
+                                                        padding: EdgeInsets.only(
+                                                            left: 10,
+                                                            right: 10,
+                                                            top: 10,
+                                                            bottom: 10),
+                                                        width: screenWidth * 0.25,
+                                                        child: Column(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                            mainAxisSize:
+                                                            MainAxisSize.max,
+                                                            children: [
+                                                              Image.network(
                                                                 servicesMenuList[
                                                                 position]
                                                                     .servicesMenu![
                                                                 index]
-                                                                    .menuCode
-                                                                    .toString()) {
-                                                              Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          JobsTabsView()));
-                                                            } else if ("GAP" ==
+                                                                    .menuIconPath ??
+                                                                    '',
+                                                                height: 35,
+                                                                width: 35,
+                                                              ),
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Text(
                                                                 servicesMenuList[
                                                                 position]
                                                                     .servicesMenu![
                                                                 index]
-                                                                    .menuCode
-                                                                    .toString()) {
-                                                              Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          ApplicantProfileView()));
-                                                            } else {
-                                                              Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          StoresListByCategoryView(
-                                                                            category: servicesMenuList[position]
-                                                                                .servicesMenu![index]
-                                                                                .menuCode ??
-                                                                                '',
-                                                                          )));
-                                                            }
-                                                          },
-                                                          child: Container(
-                                                            padding: EdgeInsets.only(
-                                                                left: 10,
-                                                                right: 10,
-                                                                top: 10,
-                                                                bottom: 10),
-                                                            width: screenWidth * 0.25,
-                                                            child: Column(
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                                crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                                mainAxisSize:
-                                                                MainAxisSize.max,
-                                                                children: [
-                                                                  Image.network(
-                                                                    servicesMenuList[
-                                                                    position]
-                                                                        .servicesMenu![
-                                                                    index]
-                                                                        .menuIconPath ??
-                                                                        '',
-                                                                    height: 35,
-                                                                    width: 35,
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 10,
-                                                                  ),
-                                                                  Text(
-                                                                    servicesMenuList[
-                                                                    position]
-                                                                        .servicesMenu![
-                                                                    index]
-                                                                        .menuName ??
-                                                                        '',
-                                                                    style: AppTextStyles
-                                                                        .medium
-                                                                        .copyWith(
-                                                                        color: ColorViewConstants
-                                                                            .colorPrimaryTextHint,
-                                                                        fontSize:
-                                                                        12),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 10,
-                                                                  ),
-                                                                ]),
-                                                          ));
-                                                    }),
-                                              )
-                                            ]),
-                                      );
-                                    }),
-                              ],
-                            )))),
+                                                                    .menuName ??
+                                                                    '',
+                                                                style: AppTextStyles
+                                                                    .medium
+                                                                    .copyWith(
+                                                                    color: ColorViewConstants
+                                                                        .colorPrimaryTextHint,
+                                                                    fontSize:
+                                                                    12),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                            ]),
+                                                      ));
+                                                }),
+                                          )
+                                        ]),
+                                  );
+                                }),
+                          ],
+                        ))),
                 widgetLoader(context, showProgressCircle),
               ],
             )));

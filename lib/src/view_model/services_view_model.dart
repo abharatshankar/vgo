@@ -36,6 +36,7 @@ import '../model/response/transfer/exchange_response.dart';
 import '../model/response/transfer/transfers_response.dart';
 import '../model/response/transfer_list_response.dart';
 import '../network/api/api_request_manager.dart';
+import '../view/services/user_history_response.dart';
 
 class ServicesViewModel {
   static final ServicesViewModel instance = ServicesViewModel();
@@ -419,6 +420,15 @@ class ServicesViewModel {
       {required Function(StatusCodeResponse? response) completion}) {
     ApiRequestManager.instance.apiVerifyDispatchOrderFromCustomer(
         username, orderId, otp, completion: (response) {
+      completion(response);
+    });
+  }
+
+  void UserHistoryResponseList(
+      String userId,
+      {required Function(UserHistoryResponse? response) completion}) {
+    ApiRequestManager.instance.apiUserHistoryResponse(
+        userId, completion: (response) {
       completion(response);
     });
   }

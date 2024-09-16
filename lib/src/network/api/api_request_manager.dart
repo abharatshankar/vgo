@@ -69,6 +69,7 @@ import '../../model/response/store_list_response.dart';
 import '../../model/response/transfer/bank_upi_account_response.dart';
 import '../../model/response/transfer/transfers_response.dart';
 import '../../utils/utils.dart';
+import '../../view/services/user_history_response.dart';
 import 'api_constants.dart';
 
 class ApiRequestManager {
@@ -1231,6 +1232,19 @@ class ApiRequestManager {
           completion(responseModel);
         });
   }
+
+  // get user search history
+  void apiUserHistoryResponse(String userId,
+      {required Function(UserHistoryResponse? response) completion}) {
+    String url = "${APIConstant.getUserSearchHistory}/$userId/get-user-search-history";
+    Services.instance.postRequest(url,{},
+        completion: (response) {
+          loggerNoStack.i(response?.data);
+          UserHistoryResponse responseModel = UserHistoryResponse.fromJson(response?.data);
+          completion(responseModel);
+        });
+  }
+
 
   // Search profile
   void apiSearchProfile(String gapId,

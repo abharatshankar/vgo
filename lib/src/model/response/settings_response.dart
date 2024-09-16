@@ -9,6 +9,8 @@ class SettingsResponse {
 
   List<TransAgent>? transAgentList;
 
+  List<SearchItem>? searchItems;
+
   List<MoreMenu>? moreMenuList;
 
   List<MoreMenu>? teamList;
@@ -25,6 +27,7 @@ class SettingsResponse {
       {this.transAgentList,
       this.moreMenuList,
       this.transferCategoriesList,
+        this.searchItems,
       this.servicesMenuList,
       this.teamList,
       this.banks,
@@ -37,6 +40,9 @@ class SettingsResponse {
             ? []
             : List<TransAgent>.from(
                 json["trans_agent"]!.map((x) => TransAgent.fromJson(x))),
+        searchItems: json["search_items"] == null ? [] :
+        List<SearchItem>.from(json["search_items"].map((x) => SearchItem.fromJson(x))),
+
         moreMenuList: json["more_menu"] == null
             ? []
             : List<MoreMenu>.from(
@@ -67,6 +73,7 @@ class SettingsResponse {
   Map<String, dynamic> toJson() =>
       {
         "trans_agent": transAgentList,
+        "search_items": List<dynamic>.from(searchItems!.map((x) => x.toJson())),
         "more_menu": moreMenuList,
         "transfer_categories": transferCategoriesList,
         "services_menu": servicesMenuList,
@@ -80,6 +87,30 @@ class SettingsResponse {
   String toString() {
     return jsonEncode(this);
   }
+}
+
+class SearchItem {
+  String category;
+  String subCategory;
+  List<String> items;
+
+  SearchItem({
+    required this.category,
+    required this.subCategory,
+    required this.items,
+  });
+
+  factory SearchItem.fromJson(Map<String, dynamic> json) => SearchItem(
+    category: json["category"],
+    subCategory: json["sub_category"],
+    items: List<String>.from(json["items"].map((x) => x)),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "category": category,
+    "sub_category": subCategory,
+    "items": List<dynamic>.from(items.map((x) => x)),
+  };
 }
 
 class TransAgent {
