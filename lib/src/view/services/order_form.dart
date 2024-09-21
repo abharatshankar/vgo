@@ -43,7 +43,7 @@ class _OrderFormState extends State<OrderForm> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.type.toLowerCase() == "order" ? "Order Form" : widget.type.toLowerCase() == "job" ? "Job Form" : "Appointment Form"),),
+      appBar: AppBar(title: Text(widget.type.toLowerCase() == "order" ? "Order Form" : widget.type.toLowerCase() == "job" ? "Job Form" : widget.type.toLowerCase() == "job" ? " Appointment Form" : "${widget.cat}"),),
       body: SafeArea(child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: showProgressCircle == true ?

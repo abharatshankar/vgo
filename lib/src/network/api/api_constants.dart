@@ -327,11 +327,23 @@ class APIConstant {
         "/get-delivery-orders";
   }
 
-  static String apiGetUserOrders(String userName) {
+  static String apiGetUserOrders(String userName,String category,String subCat,) {
     return "profile/public/api/stores/products/orders/" +
-        userName +
+        userName +"/"+category +"/"+subCat+
         "/get-user-orders";
   }
+
+  static String apiGetDirectOrders(String category,String subCat,) {
+    return "profile/public/api/stores/products/orders/" +
+        category +"/"+subCat+
+        "/get-new-orders";
+  }
+  static String apiRetailerAcceptOrder(String id,String username) {
+    return "profile/public/api/stores/products/orders/" +
+        id +"/"+username+
+        "/retailer-accept-order";
+  }
+
 
   static String apiUpdateUserOrders(String orderId) {
     return "profile/public/api/stores/products/orders/" +
@@ -339,9 +351,9 @@ class APIConstant {
         "/update-order";
   }
 
-  static String apiGetUserStoreOrders(String userName) {
+  static String apiGetUserStoreOrders(String userName,String cat,String subCat) {
     return "profile/public/api/stores/products/orders/" +
-        userName +
+        userName +"/"+cat+"/"+subCat+
         "/get-store-orders";
   }
 

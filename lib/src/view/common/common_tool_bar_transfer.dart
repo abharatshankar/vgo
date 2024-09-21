@@ -6,7 +6,7 @@ import 'package:vgo_flutter_app/src/utils/app_text_style.dart';
 import '../../constants/string_view_constants.dart';
 import '../activity/transagent/upi/add_bank_upi.dart';
 
-Widget toolBarTransferWidget(BuildContext context, String title, bool image, {bool isBack = true}) {
+Widget toolBarTransferWidget(BuildContext context, String title, bool image, {bool isBack = true,bool filter = false}) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
 
@@ -41,6 +41,7 @@ Widget toolBarTransferWidget(BuildContext context, String title, bool image, {bo
           style: AppTextStyles.medium
               .copyWith(fontSize: 16, color: ColorViewConstants.colorWhite),
         ),
+
         InkWell(
           onTap: () {
             Navigator.push(

@@ -16,6 +16,7 @@ import 'package:vgo_flutter_app/src/view/wallet/widget_wallet_receipt_list.dart'
 import 'package:vgo_flutter_app/src/view_model/wallet_view_model.dart';
 
 import '../../model/coin.dart';
+import '../../utils/CustomOverlayWidget.dart';
 import '../../utils/app_string_utils.dart';
 import '../../utils/toast_utils.dart';
 import '../../utils/utils.dart';
@@ -38,7 +39,8 @@ class BottomWalletView extends StatefulWidget {
 class BottomWalletState extends State<BottomWalletView> {
   String? userName;
   int closeAppClick = 0;
-
+  bool isOverlay = false;
+  final Customoverlaywidget customoverlaywidget = Customoverlaywidget();
   @override
   void initState() {
     super.initState();
@@ -92,6 +94,22 @@ class BottomWalletState extends State<BottomWalletView> {
     });
   }
 
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    customoverlaywidget.hideOverlay();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    customoverlaywidget.hideOverlay();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -115,21 +133,31 @@ class BottomWalletState extends State<BottomWalletView> {
                     children: [
                       toolBarWidget(context, StringViewConstants.wallet,
                           completion: (value) {
-                        if (value == 'SCAN_ICON') {
-                          loggerNoStack
-                              .e('........ QR scanner initiated ........');
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => QrScannerView()));
-                        } else {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OrdersListByUsersView(
-                                        category: '',
-                                      )));
-                        }
+                            if (value == 'SCAN_ICON') {
+                              loggerNoStack
+                                  .e('........ QR scanner initiated ........');
+                              customoverlaywidget.hideOverlay();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => QrScannerView()));
+                            } else {
+                              if(isOverlay == false){
+                                customoverlaywidget.showOverlay(context,[],"");
+                                isOverlay = true;
+                              }else{
+                                customoverlaywidget.hideOverlay();
+                                isOverlay = false;
+                              }
+                              setState(() {});
+
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => OrdersListByUsersView(
+                              //               category: '',
+                              //             )));
+                            }
                       }),
                       Expanded(
                           child: SingleChildScrollView(
@@ -165,6 +193,7 @@ class BottomWalletState extends State<BottomWalletView> {
                               itemBuilder: (context, position) {
                                 return InkWell(
                                   onTap: (){
+                                    customoverlaywidget.hideOverlay();
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(builder: (context) =>

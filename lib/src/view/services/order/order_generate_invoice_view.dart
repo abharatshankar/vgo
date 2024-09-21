@@ -44,7 +44,7 @@ class OrderGenerateInvoiceState extends State<OrderGenerateInvoiceView> {
   }
 
   void getOrderItems() {
-    var split = widget.order!.order_items!.split(',');
+    var split = widget.order!.orderItems!.split(',');
     var orderItems = StringBuffer();
     for (String item in split) {
       orderItems.write(item);
@@ -80,7 +80,7 @@ class OrderGenerateInvoiceState extends State<OrderGenerateInvoiceView> {
 
       final UpdateOrderRequest request = UpdateOrderRequest(
           username: userName,
-          store_id: widget.order?.store_id.toString() ?? '',
+          store_id: widget.order?.storeId.toString() ?? '',
           order_items: orderItemsController.text.toString(),
           gst_amount: gstAmountController.text.toString(),
           total_amount: totalAmountController.text.toString(),
@@ -89,7 +89,7 @@ class OrderGenerateInvoiceState extends State<OrderGenerateInvoiceView> {
           delivery_address_id: '');
 
       ServicesViewModel.instance.callUpdateOrder(
-          request, widget.order!.order_no.toString(), completion: (response) {
+          request, widget.order!.orderNo.toString(), completion: (response) {
         setState(() {
           showProgressCircle = false;
           if (response!.success ?? true) {
@@ -159,7 +159,7 @@ class OrderGenerateInvoiceState extends State<OrderGenerateInvoiceView> {
                             ),
                           ),
                           TextSpan(
-                              text: widget.order!.order_no.toString() ?? '',
+                              text: widget.order!.orderNo.toString() ?? '',
                               style: AppTextStyles.medium.copyWith(
                                   color: ColorViewConstants.colorPrimaryText,
                                   fontSize: 14)),

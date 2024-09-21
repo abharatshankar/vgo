@@ -53,68 +53,126 @@ class OrderStatusTab {
 }
 
 class Order {
-  int? order_no;
-  String? order_date;
-  String? order_items;
-  String? order_amount;
-  String? gst_amount;
-  String? total_amount;
-  String? username;
-  int? store_id;
-  String? loyalty_coins;
-  String? order_confirm_date;
-  String? payment_date;
-  String? order_delivery_date;
-  String? delivery_confirm_date;
-  String? order_cancel_date;
+  int orderNo;
+  DateTime orderDate;
+  String orderType;
+  String category;
+  String subCategory;
+  String orderPriority;
+  dynamic name;
+  dynamic gapId;
+  String itemName;
+  String orderItems;
+  String? orderAmount;
+  String? gstAmount;
+  String? totalAmount;
+  String username;
+  int? storeId;
+  dynamic loyaltyCoins;
+  DateTime? orderConfirmDate;
+  DateTime? paymentDate;
+  DateTime? orderDeliveryDate;
+  DateTime? deliveryConfirmDate;
+  DateTime? orderCancelDate;
+  List<OrderDetail> orderDetails;
 
-  Order(
-      {this.order_no,
-      this.order_date,
-      this.order_items,
-      this.order_amount,
-      this.gst_amount,
-      this.total_amount,
-      this.username,
-      this.store_id,
-      this.loyalty_coins,
-      this.order_confirm_date,
-      this.payment_date,
-      this.order_delivery_date,
-      this.delivery_confirm_date,
-      this.order_cancel_date});
+  Order({
+    required this.orderNo,
+    required this.orderDate,
+    required this.orderType,
+    required this.category,
+    required this.subCategory,
+    required this.orderPriority,
+    required this.name,
+    required this.gapId,
+    required this.itemName,
+    required this.orderItems,
+    required this.orderAmount,
+    required this.gstAmount,
+    required this.totalAmount,
+    required this.username,
+    required this.storeId,
+    required this.loyaltyCoins,
+    required this.orderConfirmDate,
+    required this.paymentDate,
+    required this.orderDeliveryDate,
+    required this.deliveryConfirmDate,
+    required this.orderCancelDate,
+    required this.orderDetails,
+  });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
-      order_no: json["order_no"],
-      order_date: json["order_date"],
-      order_items: json["order_items"],
-      order_amount: json["order_amount"],
-      gst_amount: json["gst_amount"],
-      total_amount: json["total_amount"],
-      username: json["username"],
-      store_id: json["store_id"],
-      loyalty_coins: json["loyalty_coins"],
-      order_confirm_date: json["order_confirm_date"],
-      payment_date: json["payment_date"],
-      order_delivery_date: json["order_delivery_date"],
-      delivery_confirm_date: json["delivery_confirm_date"],
-      order_cancel_date: json["order_cancel_date"]);
+    orderNo: json["order_no"],
+    orderDate: DateTime.parse(json["order_date"]),
+    orderType: json["order_type"],
+    category: json["category"],
+    subCategory: json["sub_category"],
+    orderPriority: json["order_priority"],
+    name: json["name"],
+    gapId: json["gap_id"],
+    itemName: json["item_name"],
+    orderItems: json["order_items"],
+    orderAmount: json["order_amount"],
+    gstAmount: json["gst_amount"],
+    totalAmount: json["total_amount"],
+    username: json["username"],
+    storeId: json["store_id"],
+    loyaltyCoins: json["loyalty_coins"],
+    orderConfirmDate: json["order_confirm_date"] == null ? null : DateTime.parse(json["order_confirm_date"]),
+    paymentDate: json["payment_date"] == null ? null : DateTime.parse(json["payment_date"]),
+    orderDeliveryDate: json["order_delivery_date"] == null ? null : DateTime.parse(json["order_delivery_date"]),
+    deliveryConfirmDate: json["delivery_confirm_date"] == null ? null : DateTime.parse(json["delivery_confirm_date"]),
+    orderCancelDate: json["order_cancel_date"] == null ? null : DateTime.parse(json["order_cancel_date"]),
+    orderDetails: List<OrderDetail>.from(json["order_details"].map((x) => OrderDetail.fromJson(x))),
+  );
 
-  Map<String, dynamic> toJson() =>
-      {
-        "order_no": order_no,
-        "order_date": order_date,
-        "order_items": order_items,
-        "order_amount": order_amount,
-        "gst_amount": gst_amount,
-        "total_amount": total_amount,
-        "username": username,
-        "store_id": store_id,
-        "loyalty_coins": loyalty_coins,
-        "order_confirm_date": order_confirm_date,
-        "payment_date": payment_date,
-        "order_delivery_date": order_delivery_date,
-        "delivery_confirm_date": delivery_confirm_date,
-        "order_cancel_date": order_cancel_date,
-      };
+  Map<String, dynamic> toJson() => {
+    "order_no": orderNo,
+    "order_date": orderDate.toIso8601String(),
+    "order_type": orderType,
+    "category": category,
+    "sub_category": subCategory,
+    "order_priority": orderPriority,
+    "name": name,
+    "gap_id": gapId,
+    "item_name": itemName,
+    "order_items": orderItems,
+    "order_amount": orderAmount,
+    "gst_amount": gstAmount,
+    "total_amount": totalAmount,
+    "username": username,
+    "store_id": storeId,
+    "loyalty_coins": loyaltyCoins,
+    "order_confirm_date": orderConfirmDate?.toIso8601String(),
+    "payment_date": paymentDate?.toIso8601String(),
+    "order_delivery_date": orderDeliveryDate?.toIso8601String(),
+    "delivery_confirm_date": deliveryConfirmDate?.toIso8601String(),
+    "order_cancel_date": orderCancelDate?.toIso8601String(),
+    "order_details": List<dynamic>.from(orderDetails.map((x) => x.toJson())),
+  };
 }
+
+class OrderDetail {
+  String userType;
+  String comments;
+  DateTime date;
+
+  OrderDetail({
+    required this.userType,
+    required this.comments,
+    required this.date,
+  });
+
+  factory OrderDetail.fromJson(Map<String, dynamic> json) => OrderDetail(
+    userType: json["user_type"],
+    comments: json["comments"],
+    date: DateTime.parse(json["date"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "user_type": userType,
+    "comments": comments,
+    "date": date.toIso8601String(),
+  };
+}
+

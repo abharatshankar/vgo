@@ -8,9 +8,10 @@ import 'package:vgo_flutter_app/src/model/response/coin_detail.dart';
 import 'package:vgo_flutter_app/src/utils/app_string_utils.dart';
 import 'package:vgo_flutter_app/src/utils/app_text_style.dart';
 
+import '../../../utils/CustomOverlayWidget.dart';
 import '../coin_detail_view.dart';
 
-Widget widgetHomeCoinDetails(BuildContext context, CoinDetail? coin) {
+Widget widgetHomeCoinDetails(BuildContext context, CoinDetail? coin,Customoverlaywidget customoverlaywidget) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
 
@@ -69,6 +70,7 @@ Widget widgetHomeCoinDetails(BuildContext context, CoinDetail? coin) {
           ),
           InkWell(
               onTap: () {
+                customoverlaywidget.hideOverlay();
                 Navigator.push(
                     context,
                     MaterialPageRoute(

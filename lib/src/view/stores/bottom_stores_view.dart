@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:vgo_flutter_app/src/constants/color_view_constants.dart';
@@ -13,14 +11,14 @@ import 'package:vgo_flutter_app/src/view/common/widget_loader.dart';
 import 'package:vgo_flutter_app/src/view/profile/applicant_profile_view.dart';
 import 'package:vgo_flutter_app/src/view/services/jobs/jobs_tabs_view.dart';
 import 'package:vgo_flutter_app/src/view/services/order/delivery/orders_delivery_list_by_users_view.dart';
-import 'package:vgo_flutter_app/src/view/services/services_transfer_widget.dart';
 import 'package:vgo_flutter_app/src/view/services/stores/stores_list_by_category_view.dart';
 import 'package:vgo_flutter_app/src/view_model/services_view_model.dart';
 
 import '../../model/response/settings_response.dart';
 import '../../model/transfer.dart';
+import '../../utils/CustomOverlayWidget.dart';
 import '../../utils/toast_utils.dart';
-import '../services/order/orders_list_by_users_view.dart';
+import '../scanner/qr_scanner_view.dart';
 
 
 class BottomStoresView extends StatefulWidget {
@@ -36,6 +34,7 @@ class StoresViewState extends State<BottomStoresView> {
   int closeAppClick = 0;
 
   List<ServicesMenu> servicesMenuList = [];
+  List<SearchItem>? searchItems = [];
   Timer? _timer;
   final PageController _pageController = PageController();
   int _currentIndex = 0;
@@ -45,9 +44,10 @@ class StoresViewState extends State<BottomStoresView> {
     Container(color: Colors.green),
     Container(color: Colors.blue),
   ];
+  bool isOverlay = false;
 
 
-
+  late final Customoverlaywidget customoverlaywidget = Customoverlaywidget();
   @override
   void initState() {
     super.initState();
@@ -73,6 +73,7 @@ class StoresViewState extends State<BottomStoresView> {
   void dispose() {
     _timer?.cancel(); // Clean up the timer when the widget is disposed
     _pageController.dispose();
+    customoverlaywidget.hideOverlay();
     super.dispose();
   }
 
@@ -106,9 +107,9 @@ class StoresViewState extends State<BottomStoresView> {
       setState(() {
         showProgressCircle = false;
       });
-
       setState(() {
         servicesMenuList = response!.servicesMenuList!;
+        searchItems = response.searchItems!;
         loggerNoStack
             .e('servicesMenuList : ' + servicesMenuList.length.toString());
       });
@@ -132,6 +133,13 @@ class StoresViewState extends State<BottomStoresView> {
   }
 
   @override
+  void deactivate() {
+    super.deactivate();
+    customoverlaywidget.hideOverlay();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -152,12 +160,31 @@ class StoresViewState extends State<BottomStoresView> {
               children: [
                 toolBarWidget(context, StringViewConstants.services,
                     completion: (value) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OrdersListByUsersView(
-                                category: '',
-                              )));
+                      if (value == 'SCAN_ICON') {
+                        loggerNoStack
+                            .e('........ QR scanner initiated ........');
+                        customoverlaywidget.hideOverlay();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => QrScannerView()));
+                      } else {
+                        if(isOverlay == false){
+                          customoverlaywidget.showOverlay(context,searchItems,"");;
+                          isOverlay = true;
+                        }else{
+                          customoverlaywidget.hideOverlay();
+                          isOverlay = false;
+                        }
+                        setState(() {});
+
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => OrdersListByUsersView(
+                        //               category: '',
+                        //             )));
+                      }
                     }),
                 // Container(
                 //   width: screenWidth,
@@ -338,6 +365,7 @@ class StoresViewState extends State<BottomStoresView> {
                                                             index]
                                                                 .menuCode
                                                                 .toString()) {
+                                                          customoverlaywidget.hideOverlay();
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
@@ -355,6 +383,7 @@ class StoresViewState extends State<BottomStoresView> {
                                                             index]
                                                                 .menuCode
                                                                 .toString()) {
+                                                          customoverlaywidget.hideOverlay();
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
@@ -367,12 +396,14 @@ class StoresViewState extends State<BottomStoresView> {
                                                             index]
                                                                 .menuCode
                                                                 .toString()) {
+                                                          customoverlaywidget.hideOverlay();
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
                                                                   builder: (context) =>
                                                                       ApplicantProfileView()));
                                                         } else {
+                                                          customoverlaywidget.hideOverlay();
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(

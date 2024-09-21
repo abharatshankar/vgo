@@ -91,27 +91,47 @@ class SettingsResponse {
 
 class SearchItem {
   String category;
-  String subCategory;
-  List<String> items;
+  String iconPath;
+  List<SubCategory> subCategories;
 
   SearchItem({
     required this.category,
-    required this.subCategory,
-    required this.items,
+    required this.iconPath,
+    required this.subCategories,
   });
 
   factory SearchItem.fromJson(Map<String, dynamic> json) => SearchItem(
     category: json["category"],
-    subCategory: json["sub_category"],
-    items: List<String>.from(json["items"].map((x) => x)),
+    iconPath: json["icon_path"],
+    subCategories: List<SubCategory>.from(json["sub_categories"].map((x) => SubCategory.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "category": category,
-    "sub_category": subCategory,
+    "icon_path": iconPath,
+    "sub_categories": List<dynamic>.from(subCategories.map((x) => x.toJson())),
+  };
+}
+class SubCategory {
+  String name;
+  List<String> items;
+
+  SubCategory({
+    required this.name,
+    required this.items,
+  });
+
+  factory SubCategory.fromJson(Map<String, dynamic> json) => SubCategory(
+    name: json["name"],
+    items: List<String>.from(json["items"].map((x) => x)),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
     "items": List<dynamic>.from(items.map((x) => x)),
   };
 }
+
 
 class TransAgent {
   String? categoryCode;

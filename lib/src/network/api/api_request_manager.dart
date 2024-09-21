@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:vgo_flutter_app/src/model/request/bot/bot_chat_request.dart';
 import 'package:vgo_flutter_app/src/model/request/create_address_request.dart';
@@ -69,6 +70,7 @@ import '../../model/response/store_list_response.dart';
 import '../../model/response/transfer/bank_upi_account_response.dart';
 import '../../model/response/transfer/transfers_response.dart';
 import '../../utils/utils.dart';
+import '../../view/services/order/model/direct_order_response.dart';
 import '../../view/services/user_history_response.dart';
 import 'api_constants.dart';
 
@@ -913,10 +915,10 @@ class ApiRequestManager {
     });
   }
 
-  void apiGetUserOrders(String userName,
+  void apiGetUserOrders(String userName,String category,String subCat,
       {required Function(OrderListResponse? response) completion}) {
     Services.instance.postRequestWithoutRequest(
-        APIConstant.apiGetUserOrders(userName), completion: (response) {
+        APIConstant.apiGetUserOrders(userName,category,subCat), completion: (response) {
       loggerNoStack.i(response?.data);
       OrderListResponse responseModel =
           OrderListResponse.fromJson(response?.data);
@@ -924,10 +926,31 @@ class ApiRequestManager {
     });
   }
 
-  void apiGetUserStoreOrders(String userName,
+  void apiGetDirectOrders(String category,String subCat,
+      {required Function(DirectOrderResponse? response) completion}) {
+    Services.instance.postRequestWithoutRequest(
+        APIConstant.apiGetDirectOrders(category,subCat), completion: (response) {
+      loggerNoStack.i(response?.data);
+      DirectOrderResponse responseModel =
+      DirectOrderResponse.fromJson(response?.data);
+      completion(responseModel);
+    });
+  }
+
+  void apiRetailerAcceptOrder(String retailerID,String userName,
+      {required Function(Response? response) completion}) {
+    Services.instance.postRequestWithoutRequest(
+        APIConstant.apiRetailerAcceptOrder(retailerID,userName), completion: (response) {
+      loggerNoStack.i(response?.data);
+      completion(response);
+    });
+  }
+
+
+  void apiGetUserStoreOrders(String userName,String cat,String subCat,
       {required Function(OrderListResponse? response) completion}) {
     Services.instance.postRequestWithoutRequest(
-        APIConstant.apiGetUserStoreOrders(userName), completion: (response) {
+        APIConstant.apiGetUserStoreOrders(userName,cat,subCat), completion: (response) {
       loggerNoStack.i(response?.data);
       OrderListResponse responseModel =
           OrderListResponse.fromJson(response?.data);

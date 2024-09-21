@@ -39,6 +39,9 @@ class StoresListByCategoryState extends State<StoresListByCategoryView>
   List<Industry>? industryList = [];
   List<Tab> tabList = [];
 
+  int currentTabIndex = 0;
+  String tabName = "";
+
   @override
   void initState() {
     super.initState();
@@ -108,6 +111,8 @@ class StoresListByCategoryState extends State<StoresListByCategoryView>
             ));
           }
 
+          tabName = tabList[currentTabIndex].text.toString();
+          print('tabName is : $tabName');
           _controller =
               TabController(length: industryList!.length, vsync: this);
           // _controller.length = industryList!.length;
@@ -161,6 +166,14 @@ class StoresListByCategoryState extends State<StoresListByCategoryView>
                         indicatorColor:
                             ColorViewConstants.colorBlueSecondaryText,
                         indicatorSize: TabBarIndicatorSize.tab,
+                        onTap: (int val){
+                          print('val is $val');
+                          setState(() {
+                            currentTabIndex = val;
+                            tabName = tabList[currentTabIndex].text.toString();
+                            print('tabName is : $tabName');
+                          });
+                        },
                         tabs: tabList),
                   )),
               Expanded(
@@ -189,7 +202,7 @@ class StoresListByCategoryState extends State<StoresListByCategoryView>
                                                         store: dynamicContent
                                                                 .storeList![
                                                             position],
-                                                        category: '',
+                                                        category: widget.category,subCategory: tabName,type: 'store',
                                                       )));
                                         },
                                         child: Container(
@@ -280,76 +293,76 @@ class StoresListByCategoryState extends State<StoresListByCategoryView>
                                                 )
                                               ],
                                             )),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                      loggerNoStack.e(
-                                                          'category : ' +
-                                                              widget.category);
-                                                      loggerNoStack.e(
-                                                          'industry : ' +
-                                                              dynamicContent.category.toString());
-                                                      /*    callCreateOrderApi(
-                                                        dynamicContent
-                                                            .storeList![
-                                                                position]
-                                                            .store_id!
-                                                            .toString(),
-                                                        dynamicContent
-                                                            .storeList![
-                                                                position]
-                                                            .store_username!,
-                                                        dynamicContent
-                                                            .storeList![
-                                                                position]
-                                                            .supply_items!);*/
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  CreateOrderView(
-                                                                    store: dynamicContent
-                                                                            .storeList![
-                                                                        position],
-                                                                    category:
-                                                                        widget.category ??
-                                                                            '',
-                                                                    travelType: dynamicContent.category ?? '',
-                                                                  )));
-                                                    },
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 10,
-                                                          right: 10,
-                                                          top: 5,
-                                                          bottom: 5),
-                                                      decoration: BoxDecoration(
-                                                          color: ColorViewConstants
-                                                              .colorBlueSecondaryDarkText,
-                                                          borderRadius:
-                                                              const BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          5))),
-                                                      child: Text(
-                                                        'Create Order',
-                                                        style: AppTextStyles
-                                                            .medium
-                                                            .copyWith(
-                                                                color: ColorViewConstants
-                                                                    .colorWhite,
-                                                                fontSize: 14),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              )
+                                            // Column(
+                                            //   mainAxisAlignment:
+                                            //       MainAxisAlignment.start,
+                                            //   crossAxisAlignment:
+                                            //       CrossAxisAlignment.start,
+                                            //   mainAxisSize: MainAxisSize.max,
+                                            //   children: [
+                                            //     InkWell(
+                                            //       onTap: () {
+                                            //           loggerNoStack.e(
+                                            //               'category : ' +
+                                            //                   widget.category);
+                                            //           loggerNoStack.e(
+                                            //               'industry : ' +
+                                            //                   dynamicContent.category.toString());
+                                            //           /*    callCreateOrderApi(
+                                            //             dynamicContent
+                                            //                 .storeList![
+                                            //                     position]
+                                            //                 .store_id!
+                                            //                 .toString(),
+                                            //             dynamicContent
+                                            //                 .storeList![
+                                            //                     position]
+                                            //                 .store_username!,
+                                            //             dynamicContent
+                                            //                 .storeList![
+                                            //                     position]
+                                            //                 .supply_items!);*/
+                                            //           Navigator.push(
+                                            //               context,
+                                            //               MaterialPageRoute(
+                                            //                   builder: (context) =>
+                                            //                       CreateOrderView(
+                                            //                         store: dynamicContent
+                                            //                                 .storeList![
+                                            //                             position],
+                                            //                         category:
+                                            //                             widget.category ??
+                                            //                                 '',
+                                            //                         travelType: dynamicContent.category ?? '',
+                                            //                       )));
+                                            //         },
+                                            //         child: Container(
+                                            //           padding: EdgeInsets.only(
+                                            //               left: 10,
+                                            //               right: 10,
+                                            //               top: 5,
+                                            //               bottom: 5),
+                                            //           decoration: BoxDecoration(
+                                            //               color: ColorViewConstants
+                                            //                   .colorBlueSecondaryDarkText,
+                                            //               borderRadius:
+                                            //                   const BorderRadius
+                                            //                       .all(Radius
+                                            //                           .circular(
+                                            //                               5))),
+                                            //           child: Text(
+                                            //             'Create Order',
+                                            //             style: AppTextStyles
+                                            //                 .medium
+                                            //                 .copyWith(
+                                            //                     color: ColorViewConstants
+                                            //                         .colorWhite,
+                                            //                     fontSize: 14),
+                                            //           ),
+                                            //         ),
+                                            //       )
+                                            //     ],
+                                            //   )
                                             ],
                                           ),
                                         ),

@@ -17,6 +17,7 @@ import 'package:vgo_flutter_app/src/view_model/services_view_model.dart';
 
 import '../../constants/string_view_constants.dart';
 import '../../model/user.dart';
+import '../../utils/CustomOverlayWidget.dart';
 import '../../utils/app_text_style.dart';
 import '../../utils/toast_utils.dart';
 import '../../utils/utils.dart';
@@ -37,7 +38,8 @@ class BottomProfileView extends StatefulWidget {
 class BottomProfileState extends State<BottomProfileView> {
   int closeAppClick = 0;
   String mobileNumber = '';
-
+  bool isOverlay = false;
+  final Customoverlaywidget customoverlaywidget = Customoverlaywidget();
   PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',
     packageName: 'Unknown',
@@ -51,6 +53,7 @@ class BottomProfileState extends State<BottomProfileView> {
   String appVersion = '';
 
   SettingsResponse? settingsResponse;
+  List<SearchItem>? searchItems = [];
 
   Future<void> _initPackageInfo() async {
     final info = await PackageInfo.fromPlatform();
@@ -109,9 +112,25 @@ class BottomProfileState extends State<BottomProfileView> {
     ServicesViewModel.instance.callSettingsConfig(completion: (response) {
       setState(() {
         settingsResponse = response;
+        searchItems = settingsResponse!.searchItems!;
       });
     });
   }
+
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    customoverlaywidget.hideOverlay();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    customoverlaywidget.hideOverlay();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -141,17 +160,27 @@ class BottomProfileState extends State<BottomProfileView> {
                   if (value == 'SCAN_ICON') {
                     loggerNoStack
                         .e('........ QR scanner initiated ........');
+                    customoverlaywidget.hideOverlay();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => QrScannerView()));
                   } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => OrdersListByUsersView(
-                              category: '',
-                            )));
+                    if(isOverlay == false){
+                      customoverlaywidget.showOverlay(context,searchItems,"");
+                      isOverlay = true;
+                    }else{
+                      customoverlaywidget.hideOverlay();
+                      isOverlay = false;
+                    }
+                    setState(() {});
+
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => OrdersListByUsersView(
+                    //               category: '',
+                    //             )));
                   }
                 }),
                 Expanded(
@@ -207,7 +236,7 @@ class BottomProfileState extends State<BottomProfileView> {
                               (index) {
                                 return InkWell(
                                     onTap: () {
-
+                                      customoverlaywidget.hideOverlay();
                                       if (settingsResponse!.moreMenuList![index].menuCode!.toString().toLowerCase() == 'transagent') {
                                         Navigator.push(
                                             context,
@@ -220,17 +249,16 @@ class BottomProfileState extends State<BottomProfileView> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     TeamMenuView(settingsResponse: settingsResponse)));
+                                      }  else if (settingsResponse!.moreMenuList![index].menuCode!.toString().toLowerCase() == 'appointment') {
+                                        showCustomDialog(context,"Appointment",searchItems!);
                                       } else if (settingsResponse!.moreMenuList![index].menuCode!.toString().toLowerCase() == 'job') {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => MyPostedJobsListView()));
+                                        showCustomDialog(context,"Job",searchItems!);
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) => MyPostedJobsListView()));
                                       } else if (settingsResponse!.moreMenuList![index].menuCode!.toString().toLowerCase() == 'order') {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    OrdersListByUsersView(category: StringViewConstants.CONSTANT_OWNER_STORE_ORDER,)));
+                                        showCustomDialog(context,"Order",searchItems!);
                                       }else if (settingsResponse!.moreMenuList![index].menuCode!.toString().toLowerCase() == 'settings') {
                                         Navigator.push(
                                             context,
@@ -256,6 +284,7 @@ class BottomProfileState extends State<BottomProfileView> {
                                               .colorBlueSecondaryText,
                                           onConfirmBtnTap: () {
                                             SessionManager.clearSession();
+                                            customoverlaywidget.hideOverlay();
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -313,6 +342,76 @@ class BottomProfileState extends State<BottomProfileView> {
             ),
           ),
         ));
+  }
+
+  void showCustomDialog(BuildContext context,String title, List<SearchItem>? searchItems) {
+    List<SubCategory>? subCategories = [];
+    for(SearchItem item in searchItems!){
+      if(item.category == title){
+        subCategories.addAll(item.subCategories);
+      }
+    }
+    print('subCategories lenght : ${subCategories.length}');
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          title: Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: Text('Please Select Your Options'),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.greenAccent,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              ),
+              onPressed: () {
+                customoverlaywidget.hideOverlay();
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            OrdersListByUsersView(category: "direct",selectedType: title,subCategories: subCategories,)));
+              },
+              child: Text('Direct $title'),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.greenAccent,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              ),
+              onPressed: () {
+                customoverlaywidget.hideOverlay();
+                 Navigator.of(context).pop();
+                // if(isOverlay == false){
+                //   customoverlaywidget.showOverlay(context,settingsResponse?.searchItems!,title,selectedType: "store");
+                //   isOverlay = true;
+                // }else{
+                //   customoverlaywidget.hideOverlay();
+                //   isOverlay = false;
+                // }
+                // setState(() {});
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            OrdersListByUsersView(category: "store",selectedType: title,subCategories: subCategories,)));
+
+              },
+              child: Text('Store $title'),
+            ),
+          ],
+          backgroundColor: Colors.white,
+          elevation: 5,
+        );
+      },
+    );
   }
 
 /*  generateMenuList() {

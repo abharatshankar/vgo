@@ -5,7 +5,9 @@ import 'package:vgo_flutter_app/src/model/company.dart';
 import 'package:vgo_flutter_app/src/utils/app_text_style.dart';
 import 'package:vgo_flutter_app/src/view/home/company_info/company_info_view.dart';
 
-Widget widgetCompanyList(BuildContext context, List<Company>? companyList) {
+import '../../utils/CustomOverlayWidget.dart';
+
+Widget widgetCompanyList(BuildContext context, List<Company>? companyList,Customoverlaywidget customoverlaywidget) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
 
@@ -15,6 +17,7 @@ Widget widgetCompanyList(BuildContext context, List<Company>? companyList) {
     itemBuilder: (context, position) {
       return InkWell(
         onTap: (){
+          customoverlaywidget.hideOverlay();
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => CompanyInfoView(company: companyList[position],)));
         },

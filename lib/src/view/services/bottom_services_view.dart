@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:vgo_flutter_app/src/constants/color_view_constants.dart';
@@ -11,17 +9,14 @@ import 'package:vgo_flutter_app/src/utils/app_text_style.dart';
 import 'package:vgo_flutter_app/src/utils/utils.dart';
 import 'package:vgo_flutter_app/src/view/common/common_tool_bar.dart';
 import 'package:vgo_flutter_app/src/view/common/widget_loader.dart';
-import 'package:vgo_flutter_app/src/view/profile/applicant_profile_view.dart';
-import 'package:vgo_flutter_app/src/view/services/jobs/jobs_tabs_view.dart';
-import 'package:vgo_flutter_app/src/view/services/order/delivery/orders_delivery_list_by_users_view.dart';
 import 'package:vgo_flutter_app/src/view/services/order_from_screen.dart';
 import 'package:vgo_flutter_app/src/view/services/services_transfer_widget.dart';
-import 'package:vgo_flutter_app/src/view/services/stores/stores_list_by_category_view.dart';
 import 'package:vgo_flutter_app/src/view_model/services_view_model.dart';
-
 import '../../model/response/settings_response.dart';
 import '../../model/transfer.dart';
+import '../../utils/CustomOverlayWidget.dart';
 import '../../utils/toast_utils.dart';
+import '../scanner/qr_scanner_view.dart';
 import 'order/orders_list_by_users_view.dart';
 
 class BottomServicesView extends StatefulWidget {
@@ -49,7 +44,9 @@ class ServicesViewState extends State<BottomServicesView> {
   ];
 
   List<MoreMenu> newInfo = [];
+  bool isOverlay = false;
 
+  late final Customoverlaywidget overlayWidget = Customoverlaywidget();
   @override
   void initState() {
     super.initState();
@@ -75,8 +72,11 @@ class ServicesViewState extends State<BottomServicesView> {
   void dispose() {
     _timer?.cancel(); // Clean up the timer when the widget is disposed
     _pageController.dispose();
+    overlayWidget.hideOverlay();
     super.dispose();
   }
+
+
 
   void callGetTransferMenu() {
     setState(() {
@@ -107,6 +107,7 @@ class ServicesViewState extends State<BottomServicesView> {
       setState(() {
         showProgressCircle = false;
       });
+
 
       setState(() {
         servicesMenuList = response!.servicesMenuList!;
@@ -146,6 +147,17 @@ class ServicesViewState extends State<BottomServicesView> {
     return false;
   }
 
+
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    overlayWidget.hideOverlay();
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -167,12 +179,31 @@ class ServicesViewState extends State<BottomServicesView> {
               children: [
                 toolBarWidget(context, StringViewConstants.services,
                     completion: (value) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => OrdersListByUsersView(
-                                category: '',
-                              )));
+                      if (value == 'SCAN_ICON') {
+                        loggerNoStack
+                            .e('........ QR scanner initiated ........');
+                        overlayWidget.hideOverlay();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => QrScannerView()));
+                      } else {
+                        if(isOverlay == false){
+                          overlayWidget.showOverlay(context,searchItems,"");
+                          isOverlay = true;
+                        }else{
+                          overlayWidget.hideOverlay();
+                          isOverlay = false;
+                        }
+                        setState(() {});
+
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => OrdersListByUsersView(
+                        //               category: '',
+                        //             )));
+                      }
                 }),
                 Container(
                   width: screenWidth,
@@ -237,7 +268,7 @@ class ServicesViewState extends State<BottomServicesView> {
                   height: screenHeight * 0.12,
                   margin: const EdgeInsets.only(top: 140, left: 15, right: 15),
                   child: Align(
-                      child: servicesTransferWidget(context, transferList)),
+                      child: servicesTransferWidget(context, transferList,overlayWidget)),
                 ),
                 Container(
                     margin: EdgeInsets.only(top: 270),
@@ -296,6 +327,7 @@ class ServicesViewState extends State<BottomServicesView> {
                                     String? name = newInfo[index].menuName;
                                     return InkWell(
                                       onTap: () {
+                                        overlayWidget.hideOverlay();
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(

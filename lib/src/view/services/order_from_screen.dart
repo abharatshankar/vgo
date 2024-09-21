@@ -52,14 +52,16 @@ class OrderFormNew extends State<OrderFromScreen>{
     });
     for(SearchItem item in widget.searchItems){
       List<String> itemsList = [];
-      if(item.items.length > 1){
-        itemsList = item.items;
-      }else{
-        itemsList = item.items[0].split(',');
-      }
-      for(String obj in itemsList){
-        Datum datum = Datum(itemCategory: item.category,itemSubCategory: item.subCategory,searchItem: obj);
-        allInfo.add(datum);
+      for(SubCategory subcat in item.subCategories){
+        if(subcat.items.length > 1){
+          itemsList = subcat.items;
+        }else{
+          itemsList = subcat.items[0].split(',');
+        }
+        for(String obj in itemsList){
+          Datum datum = Datum(itemCategory: item.category,itemSubCategory: subcat.name,searchItem: obj);
+          allInfo.add(datum);
+        }
       }
     }
     print('allInfo is : ${allInfo.length}');

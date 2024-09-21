@@ -83,16 +83,16 @@ class OrdersDeliveryListByUsersState
 
     final UpdateOrderRequest request = UpdateOrderRequest(
         username: userName,
-        store_id: order.store_id.toString() ?? '',
-        order_items: order.order_items ?? '',
-        gst_amount: order.gst_amount ?? '',
-        total_amount: order.total_amount ?? '',
-        order_amount: order.order_amount ?? '',
+        store_id: order.storeId.toString() ?? '',
+        order_items: order.orderItems ?? '',
+        gst_amount: order.gstAmount ?? '',
+        total_amount: order.totalAmount ?? '',
+        order_amount: order.orderAmount ?? '',
         order_status: 'Accept',
         delivery_address_id: '');
 
     ServicesViewModel.instance.callUpdateOrder(
-        request, order.order_no.toString(), completion: (response) {
+        request, order.orderNo.toString(), completion: (response) {
       setState(() {
         showProgressCircle = false;
         if (response!.success ?? true) {
@@ -112,16 +112,16 @@ class OrdersDeliveryListByUsersState
 
     final UpdateOrderRequest request = UpdateOrderRequest(
         username: userName,
-        store_id: order.store_id.toString() ?? '',
-        order_items: order.order_items ?? '',
-        gst_amount: order.gst_amount ?? '',
-        total_amount: order.total_amount ?? '',
-        order_amount: order.order_amount ?? '',
+        store_id: order.storeId.toString() ?? '',
+        order_items: order.orderItems ?? '',
+        gst_amount: order.gstAmount ?? '',
+        total_amount: order.totalAmount ?? '',
+        order_amount: order.orderAmount ?? '',
         order_status: 'Dispatch',
         delivery_address_id: '');
 
     ServicesViewModel.instance.callUpdateOrder(
-        request, order.order_no.toString(), completion: (response) {
+        request, order.orderNo.toString(), completion: (response) {
       setState(() {
         showProgressCircle = false;
         if (response!.success ?? true) {
@@ -141,16 +141,16 @@ class OrdersDeliveryListByUsersState
 
     final UpdateOrderRequest request = UpdateOrderRequest(
         username: userName,
-        store_id: order.store_id.toString() ?? '',
-        order_items: order.order_items ?? '',
-        gst_amount: order.gst_amount ?? '',
-        total_amount: order.total_amount ?? '',
-        order_amount: order.order_amount ?? '',
+        store_id: order.storeId.toString() ?? '',
+        order_items: order.orderItems ?? '',
+        gst_amount: order.gstAmount ?? '',
+        total_amount: order.totalAmount ?? '',
+        order_amount: order.orderAmount ?? '',
         order_status: 'Dispatch',
         delivery_address_id: '');
 
     ServicesViewModel.instance.callUpdateOrder(
-        request, order.order_no.toString(), completion: (response) {
+        request, order.orderNo.toString(), completion: (response) {
       setState(() {
         showProgressCircle = false;
         if (response!.success ?? true) {
@@ -245,7 +245,7 @@ class OrdersDeliveryListByUsersState
       showProgressCircle = true;
     });
 
-    ServicesViewModel.instance.callGetUserStoreOrders(userName,
+    ServicesViewModel.instance.callGetUserStoreOrders(userName,"","",
         completion: (response) {
       setState(() {
         showProgressCircle = false;
@@ -333,7 +333,7 @@ class OrdersDeliveryListByUsersState
                                   itemBuilder: (context, position) {
                                     var itemsBuilder = StringBuffer();
                                     var items = dynamicContent
-                                        .orderList![position].order_items!
+                                        .orderList![position].orderItems!
                                         .split(',');
                                     for (String item in items) {
                                       itemsBuilder.write(item + "\n");
@@ -349,7 +349,7 @@ class OrdersDeliveryListByUsersState
                                                       title: dynamicContent
                                                               .orderList![
                                                                   position]
-                                                              .order_no
+                                                              .orderNo
                                                               .toString() ??
                                                           '',
                                                       category: widget.category,
@@ -435,7 +435,7 @@ class OrdersDeliveryListByUsersState
                                                           text: dynamicContent
                                                               .orderList![
                                                                   position]
-                                                              .order_no!
+                                                              .orderNo!
                                                               .toString(),
                                                           style: AppTextStyles
                                                               .medium
@@ -511,7 +511,7 @@ class OrdersDeliveryListByUsersState
                                                           text: dynamicContent
                                                                   .orderList![
                                                                       position]
-                                                                  .store_id
+                                                                  .storeId
                                                                   .toString() ??
                                                               '',
                                                           style: AppTextStyles
@@ -552,7 +552,7 @@ class OrdersDeliveryListByUsersState
                                                                   dynamicContent
                                                                       .orderList![
                                                                           position]
-                                                                      .order_date) ??
+                                                                      .orderDate) ??
                                                               '',
                                                           style: AppTextStyles
                                                               .medium
@@ -568,7 +568,7 @@ class OrdersDeliveryListByUsersState
                                                 Text(
                                                   dynamicContent
                                                           .orderList![position]
-                                                          .delivery_confirm_date ??
+                                                          .deliveryConfirmDate.toString() ??
                                                       '',
                                                   style: AppTextStyles.regular
                                                       .copyWith(
@@ -653,7 +653,7 @@ class OrdersDeliveryListByUsersState
                                                             text: dynamicContent
                                                                     .orderList![
                                                                         position]
-                                                                    .order_amount ??
+                                                                    .orderAmount ??
                                                                 '',
                                                             style: AppTextStyles
                                                                 .medium
@@ -697,7 +697,7 @@ class OrdersDeliveryListByUsersState
                                                               text: dynamicContent
                                                                       .orderList![
                                                                           position]
-                                                                      .gst_amount ??
+                                                                      .gstAmount ??
                                                                   '',
                                                               style: AppTextStyles
                                                                   .medium
@@ -740,7 +740,7 @@ class OrdersDeliveryListByUsersState
                                                               text: dynamicContent
                                                                       .orderList![
                                                                           position]
-                                                                      .total_amount ??
+                                                                      .totalAmount ??
                                                                   '',
                                                               style: AppTextStyles
                                                                   .medium
@@ -845,7 +845,7 @@ class OrdersDeliveryListByUsersState
                                                                                 onChanged: (pin) {
                                                                                   otpValue = pin;
                                                                                   if (pin.length == 6) {
-                                                                                    callVerifyReceivedOrderFromCustomerApi(dynamicContent.orderList![position].order_no.toString(), pin, dynamicContent.orderList![position]);
+                                                                                    callVerifyReceivedOrderFromCustomerApi(dynamicContent.orderList![position].orderNo.toString(), pin, dynamicContent.orderList![position]);
                                                                                   }
                                                                                 },
                                                                                 onCompleted: (pin) {

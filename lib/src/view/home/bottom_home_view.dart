@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:vgo_flutter_app/src/constants/color_view_constants.dart';
 import 'package:vgo_flutter_app/src/model/company.dart';
 import 'package:vgo_flutter_app/src/model/response/coin_detail.dart';
+import 'package:vgo_flutter_app/src/utils/CustomOverlayWidget.dart';
 import 'package:vgo_flutter_app/src/utils/utils.dart';
 import 'package:vgo_flutter_app/src/view/common/common_tool_bar.dart';
 import 'package:vgo_flutter_app/src/view/common/widget_loader.dart';
@@ -13,8 +14,10 @@ import 'package:vgo_flutter_app/src/view/home/widget/widget_home_coin_details.da
 import 'package:vgo_flutter_app/src/view_model/home_view_model.dart';
 
 import '../../constants/string_view_constants.dart';
+import '../../model/response/settings_response.dart';
 import '../../session/session_manager.dart';
 import '../../utils/toast_utils.dart';
+import '../../view_model/services_view_model.dart';
 import '../scanner/qr_scanner_view.dart';
 import '../services/order/orders_list_by_users_view.dart';
 
@@ -38,18 +41,22 @@ class BottomHomeState extends State<BottomHomeView> {
   String? mobileNumber;
 
   int closeAppClick = 0;
+  bool isOverlay = false;
 
+  late Customoverlaywidget customoverlaywidget;
+  SettingsResponse? settingsResponse;
   @override
   void initState() {
     super.initState();
-
+    customoverlaywidget = Customoverlaywidget();
     SessionManager.getUserName().then((value) {
       userName = value;
       loggerNoStack.e('userName :${userName!}');
-
+      callSettingsConfigApi();
       callCoinApiDetails();
       callIIOCategoriesApiDetails();
       callStartUpsApiDetails();
+
     });
 
     SessionManager.getMobileNumber().then((value) {
@@ -81,6 +88,13 @@ class BottomHomeState extends State<BottomHomeView> {
       });
       widget.iioCategoriesList.add(StringViewConstants.all);
       widget.iioCategoriesList.addAll(response!.iioCategoriesList!);
+    });
+  }
+  void callSettingsConfigApi() {
+    ServicesViewModel.instance.callSettingsConfig(completion: (response) {
+      setState(() {
+        settingsResponse = response;
+      });
     });
   }
 
@@ -117,6 +131,18 @@ class BottomHomeState extends State<BottomHomeView> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    customoverlaywidget.hideOverlay();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    customoverlaywidget.hideOverlay();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -141,17 +167,20 @@ class BottomHomeState extends State<BottomHomeView> {
                       if (value == 'SCAN_ICON') {
                         loggerNoStack
                             .e('........ QR scanner initiated ........');
+                        customoverlaywidget.hideOverlay();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => QrScannerView()));
                       } else {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OrdersListByUsersView(
-                                      category: '',
-                                    )));
+                        if(isOverlay == false){
+                          customoverlaywidget.showOverlay(context,settingsResponse?.searchItems!,"");
+                          isOverlay = true;
+                        }else{
+                          customoverlaywidget.hideOverlay();
+                          isOverlay = false;
+                        }
+                      setState(() {});
                       }
 
                       //callID: mobileNumber ?? ''
@@ -191,7 +220,7 @@ class BottomHomeState extends State<BottomHomeView> {
                     SizedBox(
                       height: screenHeight * 0.01,
                     ),
-                    Center(child: widgetHomeCoinDetails(context, widget.coin)),
+                    Center(child: widgetHomeCoinDetails(context, widget.coin,customoverlaywidget)),
                     SizedBox(
                       height: screenHeight * 0.02,
                     ),
@@ -249,7 +278,7 @@ class BottomHomeState extends State<BottomHomeView> {
                     ),
                     Expanded(
                         child: widgetCompanyList(
-                            context, widget.filterCompanyList)),
+                            context, widget.filterCompanyList,customoverlaywidget)),
                   ],
                 ),
               ),

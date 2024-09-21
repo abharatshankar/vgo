@@ -87,16 +87,16 @@ class AddressState extends State<AddressListView> {
 
     final UpdateOrderRequest request = UpdateOrderRequest(
         username: userName,
-        store_id: order.store_id.toString() ?? '',
-        order_items: order.order_items ?? '',
-        gst_amount: order.gst_amount ?? '',
-        total_amount: order.total_amount ?? '',
-        order_amount: order.order_amount ?? '',
+        store_id: order.storeId.toString() ?? '',
+        order_items: order.orderItems ?? '',
+        gst_amount: order.gstAmount ?? '',
+        total_amount: order.totalAmount ?? '',
+        order_amount: order.orderAmount ?? '',
         order_status: 'Payment',
         delivery_address_id: addressId);
 
     ServicesViewModel.instance.callUpdateOrder(
-        request, order.order_no.toString(), completion: (response) {
+        request, order.orderNo.toString(), completion: (response) {
       setState(() {
         showProgressCircle = false;
         if (response!.success ?? true) {

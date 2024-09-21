@@ -8,10 +8,11 @@ import 'package:vgo_flutter_app/src/view/services/vgo_wallet_transfer/vgo_wallet
 import 'package:vgo_flutter_app/src/view/services/vgo_wallet_transfer/vgo_wallet_transfer_view.dart';
 
 import '../../model/transfer.dart';
+import '../../utils/CustomOverlayWidget.dart';
 import 'bank_upi_transfer/bank_upi_transfer_recent_list_view.dart';
 
 Widget servicesTransferWidget(
-    BuildContext context, List<Transfer>? transferList) {
+    BuildContext context, List<Transfer>? transferList,Customoverlaywidget overlay) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
 
@@ -28,6 +29,7 @@ Widget servicesTransferWidget(
       children: List.generate(transferList!.length, (index) {
         return InkWell(
           onTap: () {
+            overlay.hideOverlay();
             if (transferList[index].partnerTitle!.toLowerCase() == StringViewConstants.mobile) {
               Navigator.push(
                   context,

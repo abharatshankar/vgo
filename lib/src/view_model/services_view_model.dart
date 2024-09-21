@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:vgo_flutter_app/src/model/request/create_order_request.dart';
@@ -18,6 +19,7 @@ import 'package:vgo_flutter_app/src/model/response/team_response.dart';
 import 'package:vgo_flutter_app/src/model/response/transfer/bank_upi_account_response.dart';
 import 'package:vgo_flutter_app/src/model/response/transfer/bank_upi_list_response.dart';
 import 'package:vgo_flutter_app/src/model/response/transfer/transfers_list_response.dart';
+import 'package:vgo_flutter_app/src/view/services/order/model/direct_order_response.dart';
 
 import '../model/request/create_order_details_chat_request.dart';
 import '../model/request/create_recipient_request.dart';
@@ -367,17 +369,33 @@ class ServicesViewModel {
     });
   }
 
-  void callGetUserOrders(String userName,
+  void callGetUserOrders(String userName,String category,String subCat,
       {required Function(OrderListResponse? response) completion}) {
-    ApiRequestManager.instance.apiGetUserOrders(userName,
+    ApiRequestManager.instance.apiGetUserOrders(userName,category,subCat,
         completion: (response) {
       completion(response);
     });
   }
+  void callGetDirectOrders(String category,String subCat,
+      {required Function(DirectOrderResponse? response) completion}) {
+    ApiRequestManager.instance.apiGetDirectOrders(category,subCat,
+        completion: (response) {
+          completion(response);
+        });
+  }
 
-  void callGetUserStoreOrders(String userName,
+  void callRetailerAcceptOrders(String retailerId,String userName,
+      {required Function(Response? response) completion}) {
+    ApiRequestManager.instance.apiRetailerAcceptOrder(retailerId,userName,
+        completion: (response) {
+          completion(response);
+        });
+  }
+
+
+  void callGetUserStoreOrders(String userName,String cat,String subCat,
       {required Function(OrderListResponse? response) completion}) {
-    ApiRequestManager.instance.apiGetUserStoreOrders(userName,
+    ApiRequestManager.instance.apiGetUserStoreOrders(userName,cat,subCat,
         completion: (response) {
       completion(response);
     });
