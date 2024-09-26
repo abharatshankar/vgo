@@ -13,6 +13,7 @@ import 'package:vgo_flutter_app/src/model/response/user_register_response.dart';
 import '../model/response/about_coin_response.dart';
 import '../model/response/treasury_list_response.dart';
 import '../network/api/api_request_manager.dart';
+import '../view/home/company_info/models/BuyerOrderResponse.dart';
 
 class HomeViewModel {
   static final HomeViewModel instance = HomeViewModel();
@@ -143,7 +144,7 @@ class HomeViewModel {
   }
 
   void callCreateBuyerOrder(CreateBuyerSellerOrderRequest request,
-      {required Function(StatusCodeResponse? response) completion}) {
+      {required Function(BuyerOrderResponse? response) completion}) {
     ApiRequestManager.instance.createBuyerOrder(request,
         completion: (response) {
           completion(response);

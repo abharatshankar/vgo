@@ -36,7 +36,6 @@ Widget widgetAnalysisOverView(BuildContext context,
         child: Row(
           children: [
             SizedBox(width: screenWidth * 0.25,
-              height: screenHeight * 0.06,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,7 +48,7 @@ Widget widgetAnalysisOverView(BuildContext context,
                     ),
                   ),
                   SizedBox(
-                    height: screenHeight * 0.00,
+                    height: screenHeight * 0.01,
                   ),
                   Text(
                     '\$ $highStockPrice',
@@ -71,7 +70,7 @@ Widget widgetAnalysisOverView(BuildContext context,
                     ),
                   ),
                   SizedBox(
-                    height: screenHeight * 0.00,
+                    height: screenHeight * 0.01,
                   ),
                   Text(
                     '\$ $lowStockPrice',
@@ -90,6 +89,9 @@ Widget widgetAnalysisOverView(BuildContext context,
                     StringViewConstants.volume,
                     style: AppTextStyles.regular.copyWith(
                         fontSize: 15, color: ColorViewConstants.colorGray),
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.01,
                   ),
                   Text(
                     '\$ $totalVolume',

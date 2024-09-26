@@ -15,6 +15,7 @@ import 'package:vgo_flutter_app/src/view_model/home_view_model.dart';
 
 import '../../../model/company.dart';
 import '../../../model/wallet.dart';
+import '../../../session/session_manager.dart';
 import '../../../view_model/wallet_view_model.dart';
 
 class CompanyInfoView extends StatefulWidget {
@@ -42,12 +43,18 @@ class CompanyInfoViewState extends State<CompanyInfoView> {
   @override
   void initState() {
     super.initState();
-    callLowStockPriceApi();
-    callHighStockPriceApi(widget.company!.symbol!);
-    callGetStockTransfersVolumeApi(widget.company!.symbol!);
-    callSubServicesCompanyApi(widget.company!.companyCode!);
-    callProgressLogsApi(widget.company!.companyCode!);
+    SessionManager.getUserName().then((value) {
+      loggerNoStack.e('userName :${value!}');
+      userName = value;
+      callLowStockPriceApi();
+      callHighStockPriceApi(widget.company!.symbol!);
+      callGetStockTransfersVolumeApi(widget.company!.symbol!);
+      callSubServicesCompanyApi(widget.company!.companyCode!);
+      callProgressLogsApi(widget.company!.companyCode!);
+    });
   }
+
+
 
   void callLowStockPriceApi() {
     setState(() {
@@ -265,7 +272,7 @@ class CompanyInfoViewState extends State<CompanyInfoView> {
 
                       widgetCompanyInfo(context, widget.company),
 
-                      widgetBuySell(context, widget.company,isBuy: true),
+                      widgetBuySell(context, widget.company,isBuy: true,userName ?? ""),
 
                       widgetAnalysisOverView(context, widget.lowStockPrice,
                           widget.highStockPrice, widget.totalVolume),

@@ -70,6 +70,7 @@ import '../../model/response/store_list_response.dart';
 import '../../model/response/transfer/bank_upi_account_response.dart';
 import '../../model/response/transfer/transfers_response.dart';
 import '../../utils/utils.dart';
+import '../../view/home/company_info/models/BuyerOrderResponse.dart';
 import '../../view/services/order/model/direct_order_response.dart';
 import '../../view/services/user_history_response.dart';
 import 'api_constants.dart';
@@ -688,12 +689,12 @@ class ApiRequestManager {
   }
 
   void createBuyerOrder(CreateBuyerSellerOrderRequest request,
-      {required Function(StatusCodeResponse? response) completion}) {
+      {required Function(BuyerOrderResponse? response) completion}) {
     Services.instance.postRequest(APIConstant.apiCreateBuyerOrder, request,
         completion: (response) {
       loggerNoStack.i(response?.data);
-      StatusCodeResponse responseModel =
-          StatusCodeResponse.fromJson(response?.data);
+      BuyerOrderResponse responseModel =
+      BuyerOrderResponse.fromJson(response?.data);
       completion(responseModel);
     });
   }

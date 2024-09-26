@@ -10,7 +10,7 @@ import '../../../model/company.dart';
 Widget widgetSubServicesList(BuildContext context, List<Company>? companyList) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
-
+  print('companyList is : ${companyList!.length}');
   return ListView.builder(
     scrollDirection: Axis.vertical,
     itemCount: companyList?.length,

@@ -469,125 +469,125 @@ class TransactionStatusState extends State<TransactionStatusView> {
                                 )
                               ],
                             ),
-                            SizedBox(
-                              height: screenHeight * 0.04,
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-
-                                Wrap(
-                                  direction: Axis.vertical,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      padding: EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                        color: ColorViewConstants
-                                            .colorBlueSecondaryDarkText,
-                                        borderRadius: BorderRadius.circular(13),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        'assets/images/service/arrow.svg',
-                                        width: 10,
-                                        height: 10,
-                                        color: ColorViewConstants.colorWhite,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: screenHeight * 0.01,
-                                    ),
-                                    Text(
-                                      textAlign: TextAlign.center,
-                                      'History',
-                                      style: AppTextStyles.medium.copyWith(
-                                        fontSize: 13,
-                                        color: ColorViewConstants
-                                            .colorBlueSecondaryDarkText,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: screenWidth * 0.08,
-                                ),
-                                Wrap(
-                                  direction: Axis.vertical,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      padding: EdgeInsets.all(13),
-                                      decoration: BoxDecoration(
-                                        color: ColorViewConstants
-                                            .colorBlueSecondaryDarkText,
-                                        borderRadius: BorderRadius.circular(13),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        'assets/images/sep/ic_uptrend_arrow.svg',
-                                        width: 10,
-                                        height: 10,
-                                        color: ColorViewConstants.colorWhite,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: screenHeight * 0.01,
-                                    ),
-                                    Text(
-                                      textAlign: TextAlign.center,
-                                      'Order gain',
-                                      style: AppTextStyles.medium.copyWith(
-                                        fontSize: 13,
-                                        color: ColorViewConstants
-                                            .colorBlueSecondaryDarkText,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: screenWidth * 0.08,
-                                ),
-                                Wrap(
-                                  direction: Axis.vertical,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      padding: EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                        color: ColorViewConstants
-                                            .colorBlueSecondaryDarkText,
-                                        borderRadius: BorderRadius.circular(13),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        'assets/images/sep/ic_share.svg',
-                                        width: 10,
-                                        height: 10,
-                                        color: ColorViewConstants.colorWhite,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: screenHeight * 0.01,
-                                    ),
-                                    Text(
-                                      textAlign: TextAlign.center,
-                                      'Share',
-                                      style: AppTextStyles.medium.copyWith(
-                                        fontSize: 13,
-                                        color: ColorViewConstants
-                                            .colorBlueSecondaryDarkText,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            )
+                            // SizedBox(
+                            //   height: screenHeight * 0.04,
+                            // ),
+                            // Row(
+                            //   mainAxisSize: MainAxisSize.max,
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //
+                            //     Wrap(
+                            //       direction: Axis.vertical,
+                            //       crossAxisAlignment: WrapCrossAlignment.center,
+                            //       children: [
+                            //         Container(
+                            //           width: 50,
+                            //           height: 50,
+                            //           padding: EdgeInsets.all(15),
+                            //           decoration: BoxDecoration(
+                            //             color: ColorViewConstants
+                            //                 .colorBlueSecondaryDarkText,
+                            //             borderRadius: BorderRadius.circular(13),
+                            //           ),
+                            //           child: SvgPicture.asset(
+                            //             'assets/images/service/arrow.svg',
+                            //             width: 10,
+                            //             height: 10,
+                            //             color: ColorViewConstants.colorWhite,
+                            //           ),
+                            //         ),
+                            //         SizedBox(
+                            //           height: screenHeight * 0.01,
+                            //         ),
+                            //         Text(
+                            //           textAlign: TextAlign.center,
+                            //           'History',
+                            //           style: AppTextStyles.medium.copyWith(
+                            //             fontSize: 13,
+                            //             color: ColorViewConstants
+                            //                 .colorBlueSecondaryDarkText,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //     SizedBox(
+                            //       width: screenWidth * 0.08,
+                            //     ),
+                            //     Wrap(
+                            //       direction: Axis.vertical,
+                            //       crossAxisAlignment: WrapCrossAlignment.center,
+                            //       children: [
+                            //         Container(
+                            //           width: 50,
+                            //           height: 50,
+                            //           padding: EdgeInsets.all(13),
+                            //           decoration: BoxDecoration(
+                            //             color: ColorViewConstants
+                            //                 .colorBlueSecondaryDarkText,
+                            //             borderRadius: BorderRadius.circular(13),
+                            //           ),
+                            //           child: SvgPicture.asset(
+                            //             'assets/images/sep/ic_uptrend_arrow.svg',
+                            //             width: 10,
+                            //             height: 10,
+                            //             color: ColorViewConstants.colorWhite,
+                            //           ),
+                            //         ),
+                            //         SizedBox(
+                            //           height: screenHeight * 0.01,
+                            //         ),
+                            //         Text(
+                            //           textAlign: TextAlign.center,
+                            //           'Order gain',
+                            //           style: AppTextStyles.medium.copyWith(
+                            //             fontSize: 13,
+                            //             color: ColorViewConstants
+                            //                 .colorBlueSecondaryDarkText,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //     SizedBox(
+                            //       width: screenWidth * 0.08,
+                            //     ),
+                            //     Wrap(
+                            //       direction: Axis.vertical,
+                            //       crossAxisAlignment: WrapCrossAlignment.center,
+                            //       children: [
+                            //         Container(
+                            //           width: 50,
+                            //           height: 50,
+                            //           padding: EdgeInsets.all(12),
+                            //           decoration: BoxDecoration(
+                            //             color: ColorViewConstants
+                            //                 .colorBlueSecondaryDarkText,
+                            //             borderRadius: BorderRadius.circular(13),
+                            //           ),
+                            //           child: SvgPicture.asset(
+                            //             'assets/images/sep/ic_share.svg',
+                            //             width: 10,
+                            //             height: 10,
+                            //             color: ColorViewConstants.colorWhite,
+                            //           ),
+                            //         ),
+                            //         SizedBox(
+                            //           height: screenHeight * 0.01,
+                            //         ),
+                            //         Text(
+                            //           textAlign: TextAlign.center,
+                            //           'Share',
+                            //           style: AppTextStyles.medium.copyWith(
+                            //             fontSize: 13,
+                            //             color: ColorViewConstants
+                            //                 .colorBlueSecondaryDarkText,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     )
+                            //   ],
+                            // )
                           ],
                         ),
                       ))),

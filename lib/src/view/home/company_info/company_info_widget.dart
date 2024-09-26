@@ -18,7 +18,7 @@ Widget widgetCompanyInfo(BuildContext context, Company? company) {
         top: screenHeight * 0.02,
         left: screenHeight * 0.02,
         right: screenHeight * 0.01,
-        bottom: screenHeight * 0.02),
+        bottom: screenHeight * 0.00),
     decoration: BoxDecoration(
         color: ColorViewConstants.colorWhite,
       //  borderRadius: const BorderRadius.all(Radius.circular(10))
@@ -75,39 +75,37 @@ Widget widgetCompanyInfo(BuildContext context, Company? company) {
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
             children: [
+              Text(
+                showIioCategory(company),
+                style: AppTextStyles.regular.copyWith(fontSize: 14,color: ColorViewConstants.colorGreen),
+              ),
               Visibility(
-                  visible:
-                  company.growthValue?.isNotEmpty ??
-                      false,
+                  visible:true,
                   child: Wrap(
                     direction: Axis.horizontal,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Icon(
-                        showGrowthArrow(company),
-                        color: showGrowthIcon(company),
+                        Icons.currency_rupee_outlined,
+                        color: ColorViewConstants.colorBlack,
                         size: 20,
                       ),
                       const SizedBox(
                         width: 2,
                       ),
                       Text(
-                        getGrowthValue(company),
-                        style: showGrowthValue(company),
+                        "${company.stockPrice!}",
+                        style: TextStyle(fontSize: 22.0,color: ColorViewConstants.colorBlack),
                       ),
                     ],
                   )),
               Visibility(
-                visible:
-                company.growthValue?.isNotEmpty ??
-                    false,
+                visible:true,
                 child: SizedBox(
                   height: screenHeight * 0,
                 ),
               ),
-              Text(
-                showIioCategory(company),
-                style: AppTextStyles.regular.copyWith(fontSize: 14),
-              )
+
             ],
           ),
         )

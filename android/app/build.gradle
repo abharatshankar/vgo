@@ -47,13 +47,14 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
     signingConfigs {
         release {
-//            storeFile file("D://Development/Workspace/flutter_apps/VGo_flutter_app/android/app/keystore/vgo-flutter-keystore.jks")
-//            storePassword "VGo@123"
-//            keyAlias "vgo_customer_app"
-//            keyPassword "VGo@123"
+            storeFile file("D:/vgokeystorefile/upload_keystore.jks")
+            storePassword "VGo@123"
+            keyAlias "upload"
+            keyPassword "VGo@123"
         }
     }
 

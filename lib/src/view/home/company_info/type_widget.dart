@@ -12,7 +12,7 @@ Widget widgetType(BuildContext context) {
       top: screenHeight * 0.01,
       left: screenHeight * 0.02,
       right: screenHeight * 0.02,
-      bottom: screenHeight * 0.02,
+      bottom: screenHeight * 0.00,
     ),
     decoration: BoxDecoration(
       color: ColorViewConstants.colorWhite,
